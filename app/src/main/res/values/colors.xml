@@ -17,5 +17,6 @@
     <color name="BackPanelOrange">#FFE5D9</color>
     <color name="MainOrange">#FFD7BA</color>
     <color name="IconColor">#CE796B</color>
+    <color name="ThirdText">#555A74</color>
 
 </resources>

@@ -4,63 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignIn"
+    tools:context=".Authorization"
     android:orientation="vertical"
     android:background="@color/MainPink">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="128dp">
+        android:layout_gravity="center_horizontal">
 
         <TextView
-            style="@style/darkSemiBoldText"
-            android:layout_width="277dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Введите ваш логин и пароль"
+            android:text="Добро пожаловать!"
+            style="@style/darkSemiBoldText"
             android:textSize="26dp"
-            android:gravity="center"/>
+            android:layout_marginTop="128dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            style="@style/darkRegularText"
+            android:layout_width="308dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="Создайте новый аккаунт или войдите уже в существующий"
+            android:textSize="13dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="64dp">
+        android:layout_marginTop="400dp"
+        android:gravity="center_horizontal">
 
-        <EditText
-            android:id="@+id/etLogin"
+        <Button
+            android:id="@+id/btn_signUp"
             style="@style/darkRegularText"
-            android:layout_width="277dp"
-            android:layout_height="35dp"
-            android:background="@drawable/round_et"
-            android:inputType="textPersonName"
-            android:hint="Логин"
-            android:textColorHint="@color/MainText"
-            android:textSize="12dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="16dp">
-
-        <EditText
-            android:id="@+id/editTextTextPassword"
-            android:layout_width="277dp"
-            android:layout_height="35dp"
-            android:hint="Пароль"
-            android:textColor="@color/MainText"
-            style="@style/darkRegularText"
-            android:textColorHint="@color/MainText"
-            android:textSize="12dp"
-            android:background="@drawable/round_et"
-            android:inputType="textPassword" />
+            android:layout_width="230dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_secondary_button"
+            android:text="Зарегистрироваться"
+            android:textSize="15dp" />
     </LinearLayout>
 
     <LinearLayout

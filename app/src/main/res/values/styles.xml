@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="darkSemiBoldText">
+        <item name="android:textColor">@color/MainText</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/semibold</item>
+    </style>
+
+    <style name="darkRegularText">
+        <item name="android:textColor">@color/MainText</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/regular</item>
+    </style>
+
+    <style name="secondRegularText">
+        <item name="android:textColor">@color/SecondText</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/regular</item>
+    </style>
+
+    <style name="thirdRegularText">
+        <item name="android:textColor">@color/ThirdText</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/regular</item>
+    </style>
+</resources>
