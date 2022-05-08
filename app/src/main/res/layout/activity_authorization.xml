@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Добро пожаловать!"
-            style="@style/darkSemiBoldText"
+            style="@style/topText"
             android:textSize="26dp"
             android:layout_marginTop="128dp"/>
     </LinearLayout>
@@ -41,38 +41,26 @@
             android:textSize="13dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:gravity="center_horizontal">
-
         <Button
-            android:id="@+id/btn_signUp"
             style="@style/darkRegularText"
+            android:id="@+id/btn_signUp"
             android:layout_width="230dp"
             android:layout_height="37dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/round_secondary_button"
             android:text="Зарегистрироваться"
-            android:textSize="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:layout_marginBottom="32dp">
+            android:textSize="15dp"
+            android:layout_marginTop="380dp"/>
 
         <Button
             android:id="@+id/btn_signIn"
+            android:layout_marginTop="8dp"
             style="@style/darkRegularText"
             android:layout_width="230dp"
             android:layout_height="37dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/round_secondary_button"
             android:text="Войти"
-            android:textSize="15dp" />
-    </LinearLayout>
+            android:lineHeight="20dp"
+            android:textSize="15dp"/>
 </LinearLayout>

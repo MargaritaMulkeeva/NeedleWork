@@ -17,7 +17,7 @@
         android:layout_marginTop="128dp">
 
         <TextView
-            style="@style/darkSemiBoldText"
+            style="@style/topText"
             android:layout_width="277dp"
             android:layout_height="wrap_content"
             android:text="Зарегистрируйтесь"
@@ -126,13 +126,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:layout_marginBottom="32dp">
-
         <Button
             android:id="@+id/btn_signUp"
             style="@style/darkRegularText"
@@ -141,6 +134,6 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/round_secondary_button"
             android:text="Зарегистрироваться"
-            android:textSize="15dp" />
-    </LinearLayout>
+            android:textSize="15dp"
+            android:layout_marginTop="205dp"/>
 </LinearLayout>

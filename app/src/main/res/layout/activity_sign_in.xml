@@ -16,7 +16,7 @@
         android:layout_marginTop="128dp">
 
         <TextView
-            style="@style/darkSemiBoldText"
+            style="@style/topText"
             android:layout_width="277dp"
             android:layout_height="wrap_content"
             android:text="Введите ваш логин и пароль"
@@ -63,21 +63,14 @@
             android:inputType="textPassword" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:layout_marginBottom="32dp">
-
-        <Button
-            android:id="@+id/btn_signIn"
-            style="@style/darkRegularText"
-            android:layout_width="230dp"
-            android:layout_height="37dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/round_secondary_button"
-            android:text="Войти"
-            android:textSize="15dp" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_signIn"
+        style="@style/darkRegularText"
+        android:layout_width="230dp"
+        android:layout_height="37dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/round_secondary_button"
+        android:text="Войти"
+        android:textSize="15dp"
+        android:layout_marginTop="320dp"/>
 </LinearLayout>

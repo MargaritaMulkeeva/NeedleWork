@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".firstFragment"
+    android:background="@color/MainPink"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/round_top_panel"
+        android:elevation="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/topText"
+        android:textSize="20dp"
+        android:text="Главная"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <EditText
+                android:layout_width="285dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@drawable/round_pink_et"
+                android:hint="Введите для поиска"
+                style="@style/darkRegularText"
+                android:textColorHint="@color/MainText"
+                android:textSize="10dp"
+                android:layout_marginRight="16dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/round_btn_search"
+                android:text="Поиск"
+                style="@style/darkRegularText"
+                android:textSize="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:elevation="10dp"
+            android:background="@drawable/round_view"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/round_panel"
+                android:layout_marginTop="32dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_close"
+                        android:background="#0000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/plus"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/darkRegularText"
+                        android:textSize="10dp"
+                        android:text="Вы новичок? Предлагаем вам уроки для начинающих "
+                        android:layout_gravity="center"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_go"
+                    android:layout_width="75dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/round_button"
+                    android:text="Перейти"
+                    style="@style/darkRegularText"
+                    android:textSize="10dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                style="@style/topText"
+                android:textSize="15dp"
+                android:text="Популярные"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

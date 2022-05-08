@@ -12,6 +12,18 @@
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Patterns.UserDiscussions"
+            android:exported="false" />
+        <activity
+            android:name=".Profile.UserBookMark"
+            android:exported="false" />
+        <activity
+            android:name=".Lessons.Lessons"
+            android:exported="false" />
+        <activity
+            android:name=".Patterns.ChoosePattern"
+            android:exported="false" />
+        <activity
             android:name=".Authorization"
             android:exported="false" />
         <activity
