@@ -69,9 +69,94 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить в закладки"
+                    android:gravity="right"
+                    style="@style/darkRegularText"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="15dp"/>
+
+                <ImageButton
+                    android:id="@+id/btn_addBookmark"
+                    android:layout_marginLeft="8dp"
+                    android:layout_width="29dp"
+                    android:background="#0000"
+                    android:scaleType="centerCrop"
+                    android:layout_height="29dp"
+                    android:src="@drawable/bookmark"/>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/img_photoThing"
+                    android:layout_width="363dp"
+                    android:layout_height="251dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/txt_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/thirdRegularText"
+                android:textSize="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Какое-нибудь описание какое-нибудь описание какое-нибудь описаниекакое-нибудь описаниекакое-нибудь описаниекакое-нибудь описание"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/topText"
+                android:text="Схема вязания"
+                android:textSize="15dp"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/img_photoKnitting"
+                    android:layout_width="363dp"
+                    android:layout_height="251dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/txt_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/thirdRegularText"
+                android:textSize="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Описание работы Описание работы Описание работыОписание работыОписание работыОписание работы"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/darkRegularText"
+                android:textSize="15dp"
+                android:layout_marginTop="16dp"
+                android:text="Понравилась схема? Оцените её"/>
+
+            <RatingBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

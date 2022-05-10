@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Patterns.UserDiscussions"
+    tools:context=".Discussions.AddDiscussions"
     android:orientation="vertical"
     android:background="@color/MainPink">
 
@@ -36,7 +36,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="Ваши обсуждения"
+                android:text="Создание обсуждения"
                 android:textSize="20dp" />
         </RelativeLayout>
     </LinearLayout>
@@ -55,21 +55,46 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/topText"
-                android:textSize="15dp"
-                android:text="Мои обсуждения"
-                android:layout_gravity="center_horizontal"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="16dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="7dp"
+                        android:layout_marginRight="8dp">
+
+                        <ImageView
+                            android:id="@+id/img_avatar"
+                            android:layout_width="56dp"
+                            android:layout_height="51dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/gray"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
-
-
 </LinearLayout>

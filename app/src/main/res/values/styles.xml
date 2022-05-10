@@ -24,4 +24,16 @@
         <item name="textAllCaps">false</item>
         <item name="fontFamily">@font/regular</item>
     </style>
+
+    <style name="MediumThird">
+        <item name="android:textColor">@color/ThirdText</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/semibold</item>
+    </style>
+
+    <style name="italic">
+        <item name="android:textColor">@color/ThirdText</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/italic</item>
+    </style>
 </resources>

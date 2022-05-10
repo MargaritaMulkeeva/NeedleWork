@@ -15,13 +15,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1. Введение"
-            style="@style/darkSemiBoldText"
+            style="@style/topText"
             android:textSize="15dp"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="10dp"
             app:cardCornerRadius="20dp"
             app:cardBackgroundColor="@color/MainOrange"
             android:layout_gravity="center"

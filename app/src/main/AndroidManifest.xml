@@ -12,6 +12,12 @@
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Discussions.AddDiscussions"
+            android:exported="false" />
+        <activity
+            android:name=".Discussions.ChooseDiscussions"
+            android:exported="false" />
+        <activity
             android:name=".Patterns.UserDiscussions"
             android:exported="false" />
         <activity
