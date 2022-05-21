@@ -3,6 +3,7 @@ package com.example.needlework;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -27,11 +28,14 @@ public class SignUp extends AppCompatActivity {
     private static final String TAG = "Registration";
 
     ApiService service = ApiHandler.getmInstance().getService();
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        editor = getSharedPreferences("needleWorkApp", MODE_PRIVATE).edit();
 
         et_name = findViewById(R.id.etName);
         et_login = findViewById(R.id.etLogin);
@@ -54,7 +58,9 @@ public class SignUp extends AppCompatActivity {
             service.doRegistration(getRegistationData()).enqueue(new Callback<RegistrationResponse>() {
                 @Override
                 public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
-                    if(response.isSuccessful()){
+                    if(response.isSuccessful()) {
+                        editor.putString("token", response.body().getToken()).apply();
+                        editor.commit();
                         Intent intent = new Intent(SignUp.this, MainActivity.class);
                         startActivity(intent);
                         finish();

@@ -37,6 +37,8 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        editor = getSharedPreferences("needleWorkApp", MODE_PRIVATE).edit();
+
         btn_signIn = findViewById(R.id.btn_signIn);
         et_login = findViewById(R.id.etLogin);
         et_password = findViewById(R.id.editTextTextPassword);
@@ -55,8 +57,10 @@ public class SignIn extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
                     editor.putString("token", response.body().getToken()).apply();
+                    editor.commit();
                     Intent intent = new Intent(SignIn.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 else if(response.code()==400){
                     String serverErrorMessage = ErrorUtils.error(response).getError();
