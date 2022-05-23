@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.needlework.Adapters.CategoriesAdapter;
+import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.CategoriesOfPatternResponse;
+import com.example.needlework.NetWork.Models.DiscussionsResponse;
 import com.example.needlework.NetWork.Service.ApiService;
 
 import java.util.List;
@@ -30,6 +32,11 @@ public class secondFragment extends Fragment {
     private CategoriesAdapter categoriesAdapter;
     private List<CategoriesOfPatternResponse> mCategories;
     private RecyclerView recyclerView;
+
+    private DiscussionAdapter discussionAdapter;
+    private List<DiscussionsResponse> mDisc;
+    private RecyclerView recyclerViewDisc;
+
     private ApiService service = ApiHandler.getmInstance().getService();
 
     public secondFragment() {
@@ -52,6 +59,7 @@ public class secondFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_categoriesDisc);
         getCategories();
+        getDisc();
         return view;
     }
 
@@ -80,6 +88,36 @@ public class secondFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<List<CategoriesOfPatternResponse>> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
+
+    private void getDisc(){
+        AsyncTask.execute(()->{
+            service.getDiscussions().enqueue(new Callback<DiscussionsResponse>() {
+                @Override
+                public void onResponse(Call<DiscussionsResponse> call, Response<DiscussionsResponse> response) {
+                    if(response.isSuccessful()){
+                        mDisc = (List<DiscussionsResponse>) response.body();
+                        discussionAdapter = new DiscussionAdapter(mDisc, getContext());
+
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerViewDisc.setLayoutManager(manager);
+                        recyclerViewDisc.setAdapter(discussionAdapter);
+                    }
+                    else if(response.code()==400){
+                        String error = ErrorUtils.error(response).getError();
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Не удалось вывести категории схем", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DiscussionsResponse> call, Throwable t) {
                     Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

@@ -13,7 +13,6 @@ public class Authorization extends AppCompatActivity {
     Button signUp, signIn;
 
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private String token;
 
     @Override
@@ -21,8 +20,7 @@ public class Authorization extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        editor = getSharedPreferences("token", MODE_PRIVATE).edit();
-        sharedPreferences = getSharedPreferences("token", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("needleWorkApp", MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
 
         if(token!=""){

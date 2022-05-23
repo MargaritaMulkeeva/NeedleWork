@@ -19,14 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow"
-                android:background="#0000"/>
-
             <TextView
                 android:id="@+id/tv_name"
                 style="@style/topText"
@@ -61,7 +53,7 @@
             android:layout_height="wrap_content"
             style="@style/darkRegularText"
             android:layout_marginTop="8dp"
-            android:text="Никнейм"
+            android:text="Имя"
             android:textSize="12dp"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
@@ -75,6 +67,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:elevation="10dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/round_view"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"

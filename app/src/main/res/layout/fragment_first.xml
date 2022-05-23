@@ -49,10 +49,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,13 +57,14 @@
             android:background="@drawable/round_view"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp">
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerCategories"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 >
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -122,9 +119,9 @@
                 android:text="Популярные"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/patternRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"/>
         </LinearLayout>
-    </ScrollView>
 </LinearLayout>

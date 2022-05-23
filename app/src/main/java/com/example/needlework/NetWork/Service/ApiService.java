@@ -1,8 +1,8 @@
 package com.example.needlework.NetWork.Service;
 
 import com.example.needlework.NetWork.Models.CategoriesOfPatternResponse;
+import com.example.needlework.NetWork.Models.DiscussionsResponse;
 import com.example.needlework.NetWork.Models.GetKnittingPatternBody;
-import com.example.needlework.NetWork.Models.GetPopularKnittingPatternBody;
 import com.example.needlework.NetWork.Models.KnittingPatternResponse;
 import com.example.needlework.NetWork.Models.LoginBody;
 import com.example.needlework.NetWork.Models.LoginResponse;
@@ -35,8 +35,11 @@ public interface ApiService {
     Call<List<CategoriesOfPatternResponse>> getCategoriesOfDiscussion();
 
     @GET("knittingPatterns/get-popular")
-    Call<List<KnittingPatternResponse>> getPopularKnittingPatterns(@Body GetPopularKnittingPatternBody body);
+    Call<List<KnittingPatternResponse>> getPopularKnittingPatterns();
 
     @GET("knittingPatterns/get-one")
     Call<KnittingPatternResponse> getKnittingPattern(@Body GetKnittingPatternBody body);
+
+    @GET("discussions/by-criterion")
+    Call<DiscussionsResponse> getDiscussions();
 }

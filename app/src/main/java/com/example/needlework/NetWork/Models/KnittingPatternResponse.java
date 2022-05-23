@@ -6,7 +6,7 @@ import java.util.List;
 
 public class KnittingPatternResponse {
     @SerializedName("id")
-    private String id;
+    private long id;
 
     @SerializedName("name")
     private String name;
@@ -29,7 +29,7 @@ public class KnittingPatternResponse {
     @SerializedName("createdAt")
     private String createdAt;
 
-    public KnittingPatternResponse(String id, String name, String description, double rating, String imagePattern, String imageOfProduct, List<KnittingPatternContent> workProcessDescription, String createdAt) {
+    public KnittingPatternResponse(long id, String name, String description, double rating, String imagePattern, String imageOfProduct, List<KnittingPatternContent> workProcessDescription, String createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,11 +40,11 @@ public class KnittingPatternResponse {
         this.createdAt = createdAt;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

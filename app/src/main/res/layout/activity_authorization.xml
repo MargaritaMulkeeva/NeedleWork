@@ -50,7 +50,7 @@
             android:background="@drawable/round_secondary_button"
             android:text="Зарегистрироваться"
             android:textSize="15dp"
-            android:layout_marginTop="380dp"/>
+            android:layout_marginTop="340dp"/>
 
         <Button
             android:id="@+id/btn_signIn"
@@ -61,6 +61,18 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/round_secondary_button"
             android:text="Войти"
+            android:lineHeight="20dp"
+            android:textSize="15dp"/>
+
+        <Button
+            android:id="@+id/btn_signInWithoutAccount"
+            android:layout_marginTop="8dp"
+            style="@style/darkRegularText"
+            android:layout_width="230dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_btn"
+            android:text="Войти без аккаунта"
             android:lineHeight="20dp"
             android:textSize="15dp"/>
 </LinearLayout>

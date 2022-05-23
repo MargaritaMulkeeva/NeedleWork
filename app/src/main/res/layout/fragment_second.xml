@@ -19,13 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow"
-                android:background="#0000"/>
-
             <TextView
                 android:id="@+id/tv_name"
                 style="@style/topText"
@@ -78,12 +71,13 @@
             android:background="@drawable/round_view"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp">
 
             <Button
                 style="@style/darkRegularText"
                 android:id="@+id/btn_createDisc"
-                android:layout_width="164dp"
+                android:layout_width="184dp"
                 android:layout_height="22dp"
                 android:layout_gravity="right"
                 android:background="@drawable/round_secondary_button"
@@ -106,7 +100,7 @@
                 android:text="Популярные темы сейчас"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_popular"
+                android:id="@+id/rv_popularDisc"
                 android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -121,7 +115,7 @@
                 android:text="Недавние"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_new"
+                android:id="@+id/rv_newDisc"
                 android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
