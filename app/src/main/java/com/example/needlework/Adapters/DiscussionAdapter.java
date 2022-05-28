@@ -9,16 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.needlework.NetWork.Models.DiscussionsResponse;
-import com.example.needlework.NetWork.Models.KnittingPatternResponse;
+import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.DiscussionHolder> {
 
-    public DiscussionAdapter(List<DiscussionsResponse> mDiscussions, Context context) {
+    public DiscussionAdapter(List<DiscussionsResponseBody> mDiscussions, Context context) {
         this.mDiscussions = mDiscussions;
         this.context = context;
     }
@@ -42,7 +40,7 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         }
     }
 
-    private List<DiscussionsResponse> mDiscussions;
+    private List<DiscussionsResponseBody> mDiscussions;
     private Context context;
 
 
@@ -56,11 +54,11 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
 
     @Override
     public void onBindViewHolder(@NonNull DiscussionHolder holder, int position) {
-        final DiscussionsResponse discussions = mDiscussions.get(position);
+        final DiscussionsResponseBody discussions = mDiscussions.get(position);
 
         holder.tvTheme.setText(discussions.getTheme());
         holder.tv_nickname.setText(String.valueOf(discussions.getUserId()));
-        holder.tv_category.setText(String.valueOf(discussions.getCategoryofDiscussionsId()));
+        holder.tv_category.setText(String.valueOf(discussions.getCategoryOfDiscussionsId()));
         holder.tvRating.setText(String.valueOf(discussions.getRating()));
         holder.tv_date.setText(discussions.getCreatedAt());
     }

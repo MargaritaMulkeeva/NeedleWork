@@ -18,8 +18,10 @@ import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.CategoriesOfPatternResponse;
-import com.example.needlework.NetWork.Models.DiscussionsResponse;
+import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionRequestBody;
+import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
+import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
+import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 
 import java.util.List;
@@ -30,11 +32,11 @@ import retrofit2.Response;
 
 public class secondFragment extends Fragment {
     private CategoriesAdapter categoriesAdapter;
-    private List<CategoriesOfPatternResponse> mCategories;
+    private List<CategoriesOfPatternResponseBody> mCategories;
     private RecyclerView recyclerView;
 
     private DiscussionAdapter discussionAdapter;
-    private List<DiscussionsResponse> mDisc;
+    private List<DiscussionsResponseBody> mDisc;
     private RecyclerView recyclerViewDisc;
 
     private ApiService service = ApiHandler.getmInstance().getService();
@@ -65,9 +67,9 @@ public class secondFragment extends Fragment {
 
     private void getCategories(){
         AsyncTask.execute(()->{
-            service.getCategoriesOfDiscussion().enqueue(new Callback<List<CategoriesOfPatternResponse>>() {
+            service.getCategoriesOfDiscussion().enqueue(new Callback<List<CategoriesOfPatternResponseBody>>() {
                 @Override
-                public void onResponse(Call<List<CategoriesOfPatternResponse>> call, Response<List<CategoriesOfPatternResponse>> response) {
+                public void onResponse(Call<List<CategoriesOfPatternResponseBody>> call, Response<List<CategoriesOfPatternResponseBody>> response) {
                     if(response.isSuccessful()){
                         mCategories = response.body();
                         categoriesAdapter = new CategoriesAdapter(mCategories, getContext());
@@ -87,7 +89,7 @@ public class secondFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<List<CategoriesOfPatternResponse>> call, Throwable t) {
+                public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
                     Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -96,11 +98,11 @@ public class secondFragment extends Fragment {
 
     private void getDisc(){
         AsyncTask.execute(()->{
-            service.getDiscussions().enqueue(new Callback<DiscussionsResponse>() {
+            service.getDiscussionsByCritetion(new GetDiscussionByCritetionRequestBody("popular")).enqueue(new Callback<GetDiscussionByCritetionResponseBody>() {
                 @Override
-                public void onResponse(Call<DiscussionsResponse> call, Response<DiscussionsResponse> response) {
+                public void onResponse(Call<GetDiscussionByCritetionResponseBody> call, Response<GetDiscussionByCritetionResponseBody> response) {
                     if(response.isSuccessful()){
-                        mDisc = (List<DiscussionsResponse>) response.body();
+                        mDisc = (List<DiscussionsResponseBody>) response.body().getDiscussions();
                         discussionAdapter = new DiscussionAdapter(mDisc, getContext());
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -117,7 +119,7 @@ public class secondFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<DiscussionsResponse> call, Throwable t) {
+                public void onFailure(Call<GetDiscussionByCritetionResponseBody> call, Throwable t) {
                     Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

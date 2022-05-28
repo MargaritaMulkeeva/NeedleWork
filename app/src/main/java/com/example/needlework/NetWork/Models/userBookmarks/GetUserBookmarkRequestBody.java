@@ -1,12 +1,12 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.userBookmarks;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SignOutBody {
+public class GetUserBookmarkRequestBody {
     @SerializedName("token")
     private String token;
 
-    public SignOutBody(String token) {
+    public GetUserBookmarkRequestBody(String token) {
         this.token = token;
     }
 

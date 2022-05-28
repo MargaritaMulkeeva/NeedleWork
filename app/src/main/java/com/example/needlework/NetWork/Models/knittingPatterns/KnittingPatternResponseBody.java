@@ -1,10 +1,11 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.knittingPatterns;
 
+import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternContent;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class KnittingPatternResponse {
+public class KnittingPatternResponseBody {
     @SerializedName("id")
     private long id;
 
@@ -29,7 +30,7 @@ public class KnittingPatternResponse {
     @SerializedName("createdAt")
     private String createdAt;
 
-    public KnittingPatternResponse(long id, String name, String description, double rating, String imagePattern, String imageOfProduct, List<KnittingPatternContent> workProcessDescription, String createdAt) {
+    public KnittingPatternResponseBody(long id, String name, String description, double rating, String imagePattern, String imageOfProduct, List<KnittingPatternContent> workProcessDescription, String createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;

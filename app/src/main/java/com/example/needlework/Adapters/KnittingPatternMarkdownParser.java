@@ -1,6 +1,6 @@
 package com.example.needlework.Adapters;
 
-import com.example.needlework.NetWork.Models.KnittingPatternContent;
+import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternContent;
 
 import java.util.List;
 

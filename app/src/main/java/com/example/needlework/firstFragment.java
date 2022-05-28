@@ -18,8 +18,8 @@ import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.PatternAdapter;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.CategoriesOfPatternResponse;
-import com.example.needlework.NetWork.Models.KnittingPatternResponse;
+import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
+import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 
 import java.util.List;
@@ -30,11 +30,11 @@ import retrofit2.Response;
 
 public class firstFragment extends Fragment {
     private CategoriesAdapter categoriesAdapter;
-    private List<CategoriesOfPatternResponse> mCategories;
+    private List<CategoriesOfPatternResponseBody> mCategories;
     private RecyclerView mCategoriesContainer;
 
     private PatternAdapter patternAdapter;
-    private List<KnittingPatternResponse> mPattern;
+    private List<KnittingPatternResponseBody> mPattern;
     private RecyclerView mPatternContainer;
 
     private ApiService service = ApiHandler.getmInstance().getService();
@@ -61,9 +61,9 @@ public class firstFragment extends Fragment {
 
     private void getCategories(){
         AsyncTask.execute(()->{
-            service.getCategoriesOfPattern().enqueue(new Callback<List<CategoriesOfPatternResponse>>() {
+            service.getCategoriesOfPattern().enqueue(new Callback<List<CategoriesOfPatternResponseBody>>() {
                 @Override
-                public void onResponse(Call<List<CategoriesOfPatternResponse>> call, Response<List<CategoriesOfPatternResponse>> response) {
+                public void onResponse(Call<List<CategoriesOfPatternResponseBody>> call, Response<List<CategoriesOfPatternResponseBody>> response) {
                     if(response.isSuccessful()){
                         mCategories = response.body();
                         categoriesAdapter = new CategoriesAdapter(mCategories, getContext());
@@ -83,7 +83,7 @@ public class firstFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<List<CategoriesOfPatternResponse>> call, Throwable t) {
+                public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
                     Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -92,9 +92,9 @@ public class firstFragment extends Fragment {
 
     private void getPatterns(){
         AsyncTask.execute(()->{
-            service.getPopularKnittingPatterns().enqueue(new Callback<List<KnittingPatternResponse>>() {
+            service.getPopularKnittingPatterns().enqueue(new Callback<List<KnittingPatternResponseBody>>() {
                 @Override
-                public void onResponse(Call<List<KnittingPatternResponse>> call, Response<List<KnittingPatternResponse>> response) {
+                public void onResponse(Call<List<KnittingPatternResponseBody>> call, Response<List<KnittingPatternResponseBody>> response) {
                     if(response.isSuccessful()){
 
                         mPattern = response.body();
@@ -115,7 +115,7 @@ public class firstFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<List<KnittingPatternResponse>> call, Throwable t) {
+                public void onFailure(Call<List<KnittingPatternResponseBody>> call, Throwable t) {
                     Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

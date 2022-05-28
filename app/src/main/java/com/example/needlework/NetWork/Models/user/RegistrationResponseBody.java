@@ -1,15 +1,15 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegistrationResponse {
+public class RegistrationResponseBody {
     @SerializedName("token")
     private String token;
 
     @SerializedName("user")
-    private UserResponse user;
+    private UserResponseBody user;
 
-    public RegistrationResponse(String token, UserResponse user) {
+    public RegistrationResponseBody(String token, UserResponseBody user) {
         this.token = token;
         this.user = user;
     }
@@ -22,11 +22,11 @@ public class RegistrationResponse {
         this.token = token;
     }
 
-    public UserResponse getUser() {
+    public UserResponseBody getUser() {
         return user;
     }
 
-    public void setUser(UserResponse user) {
+    public void setUser(UserResponseBody user) {
         this.user = user;
     }
 }

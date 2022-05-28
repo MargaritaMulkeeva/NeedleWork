@@ -1,10 +1,10 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginBody {
+public class LoginRequestBody {
 
-    public LoginBody(String login, String password) {
+    public LoginRequestBody(String login, String password) {
         this.login = login;
         this.password = password;
     }

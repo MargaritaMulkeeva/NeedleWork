@@ -1,12 +1,12 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.knittingPatterns;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GetKnittingPatternBody {
+public class GetKnittingPatternRequestBody {
     @SerializedName("patternId")
     private String patternId;
 
-    public GetKnittingPatternBody(String patternId) {
+    public GetKnittingPatternRequestBody(String patternId) {
         this.patternId = patternId;
     }
 

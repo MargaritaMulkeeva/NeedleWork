@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.RegistrationBody;
-import com.example.needlework.NetWork.Models.RegistrationResponse;
+import com.example.needlework.NetWork.Models.user.RegistrationRequestBody;
+import com.example.needlework.NetWork.Models.user.RegistrationResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 
 import retrofit2.Call;
@@ -55,9 +55,9 @@ public class SignUp extends AppCompatActivity {
 
     private void doRegistation(){
         AsyncTask.execute(()->{
-            service.doRegistration(getRegistationData()).enqueue(new Callback<RegistrationResponse>() {
+            service.doRegistration(getRegistationData()).enqueue(new Callback<RegistrationResponseBody>() {
                 @Override
-                public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
+                public void onResponse(Call<RegistrationResponseBody> call, Response<RegistrationResponseBody> response) {
                     if(response.isSuccessful()) {
                         editor.putString("token", response.body().getToken()).apply();
                         editor.commit();
@@ -75,7 +75,7 @@ public class SignUp extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<RegistrationResponse> call, Throwable t) {
+                public void onFailure(Call<RegistrationResponseBody> call, Throwable t) {
                     Toast.makeText(SignUp.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -84,8 +84,8 @@ public class SignUp extends AppCompatActivity {
 
     //b344bb79-aae6-496f-b408-d6bdf7932305
 
-    public RegistrationBody getRegistationData(){
-        return new RegistrationBody(et_name.getText().toString(), et_nickname.getText().toString(), et_login.getText().toString(), et_password.getText().toString(), et_confirm.getText().toString());
+    public RegistrationRequestBody getRegistationData(){
+        return new RegistrationRequestBody(et_name.getText().toString(), et_nickname.getText().toString(), et_login.getText().toString(), et_password.getText().toString(), et_confirm.getText().toString());
     }
 
 }

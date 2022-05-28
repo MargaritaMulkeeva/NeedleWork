@@ -1,10 +1,10 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+public class LoginResponseBody {
 
-    public LoginResponse(String token) {
+    public LoginResponseBody(String token) {
         this.token = token;
     }
 

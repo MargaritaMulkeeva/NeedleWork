@@ -1,30 +1,36 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegistrationBody {
+public class UserResponseBody {
+    @SerializedName("id")
+    private String id;
     @SerializedName("name")
     private String name;
-
     @SerializedName("nickName")
     private String nickName;
-
     @SerializedName("login")
     private String login;
-
     @SerializedName("password")
     private String password;
+    @SerializedName("avatar")
+    private String avatar;
 
-    @SerializedName("confirm")
-    private String confirm;
-
-
-    public RegistrationBody(String name, String nickName, String login, String password, String confirm) {
+    public UserResponseBody(String id, String name, String nickName, String login, String password, String avatar) {
+        this.id = id;
         this.name = name;
         this.nickName = nickName;
         this.login = login;
         this.password = password;
-        this.confirm = confirm;
+        this.avatar = avatar;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -59,11 +65,11 @@ public class RegistrationBody {
         this.password = password;
     }
 
-    public String getConfirm() {
-        return confirm;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

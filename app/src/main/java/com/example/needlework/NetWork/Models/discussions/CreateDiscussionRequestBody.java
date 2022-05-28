@@ -1,33 +1,24 @@
-package com.example.needlework.NetWork.Models;
+package com.example.needlework.NetWork.Models.discussions;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DiscussionsResponse {
-
+public class CreateDiscussionRequestBody {
     @SerializedName("theme")
     private String theme;
-
     @SerializedName("textOfDiscussions")
     private String textOfDiscussions;
-
     @SerializedName("rating")
-    private double rating;
-
-    @SerializedName("createdAt")
-    private String createdAt;
-
-    @SerializedName("categoryofDiscussionsId")
-    private long categoryofDiscussionsId;
-
+    private float rating;
+    @SerializedName("categoryOfDiscussionsId")
+    private long categoryOfDiscussionsId;
     @SerializedName("userId")
     private long userId;
 
-    public DiscussionsResponse(String theme, String textOfDiscussions, double rating, String createdAt, long categoryofDiscussionsId, long userId) {
+    public CreateDiscussionRequestBody(String theme, String textOfDiscussions, float rating, long categoryOfDiscussionsId, long userId) {
         this.theme = theme;
         this.textOfDiscussions = textOfDiscussions;
         this.rating = rating;
-        this.createdAt = createdAt;
-        this.categoryofDiscussionsId = categoryofDiscussionsId;
+        this.categoryOfDiscussionsId = categoryOfDiscussionsId;
         this.userId = userId;
     }
 
@@ -47,28 +38,20 @@ public class DiscussionsResponse {
         this.textOfDiscussions = textOfDiscussions;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public long getCategoryOfDiscussionsId() {
+        return categoryOfDiscussionsId;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public long getCategoryofDiscussionsId() {
-        return categoryofDiscussionsId;
-    }
-
-    public void setCategoryofDiscussionsId(long categoryofDiscussionsId) {
-        this.categoryofDiscussionsId = categoryofDiscussionsId;
+    public void setCategoryOfDiscussionsId(long categoryOfDiscussionsId) {
+        this.categoryOfDiscussionsId = categoryOfDiscussionsId;
     }
 
     public long getUserId() {

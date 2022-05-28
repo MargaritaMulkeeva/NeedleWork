@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.needlework.NetWork.Models.KnittingPatternResponse;
+import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternResponseBody;
 import com.example.needlework.R;
 import com.squareup.picasso.Picasso;
 
@@ -34,10 +34,10 @@ public class PatternAdapter extends RecyclerView.Adapter<PatternAdapter.PatternH
         }
     }
 
-    private List<KnittingPatternResponse> mPatterns;
+    private List<KnittingPatternResponseBody> mPatterns;
     private Context context;
 
-    public PatternAdapter(List<KnittingPatternResponse> mPatterns, Context context) {
+    public PatternAdapter(List<KnittingPatternResponseBody> mPatterns, Context context) {
         this.mPatterns = mPatterns;
         this.context = context;
     }
@@ -52,7 +52,7 @@ public class PatternAdapter extends RecyclerView.Adapter<PatternAdapter.PatternH
 
     @Override
     public void onBindViewHolder(@NonNull PatternHolder holder, int position) {
-        final KnittingPatternResponse pattern = mPatterns.get(position);
+        final KnittingPatternResponseBody pattern = mPatterns.get(position);
 
         holder.text_name.setText(pattern.getName());
         holder.text_descriprion.setText(pattern.getDescription());

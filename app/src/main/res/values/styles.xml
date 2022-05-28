@@ -36,4 +36,9 @@
         <item name="textAllCaps">false</item>
         <item name="fontFamily">@font/italic</item>
     </style>
+
+    <style name="MyRatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#CE796B</item>
+        <item name="colorControlActivated">#CE796B</item>
+    </style>
 </resources>

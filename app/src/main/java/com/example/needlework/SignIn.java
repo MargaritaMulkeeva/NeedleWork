@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.LoginBody;
-import com.example.needlework.NetWork.Models.LoginResponse;
+import com.example.needlework.NetWork.Models.user.LoginRequestBody;
+import com.example.needlework.NetWork.Models.user.LoginResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 
 import retrofit2.Call;
@@ -52,9 +52,9 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void doLogin(){
-        service.doLogin(getLoginData()).enqueue(new Callback<LoginResponse>() {
+        service.doLogin(getLoginData()).enqueue(new Callback<LoginResponseBody>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            public void onResponse(Call<LoginResponseBody> call, Response<LoginResponseBody> response) {
                 if(response.isSuccessful()){
                     editor.putString("token", response.body().getToken()).apply();
                     editor.commit();
@@ -71,12 +71,12 @@ public class SignIn extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<LoginResponseBody> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private LoginBody getLoginData(){
-        return new LoginBody(et_login.getText().toString(), et_password.getText().toString());
+    private LoginRequestBody getLoginData(){
+        return new LoginRequestBody(et_login.getText().toString(), et_password.getText().toString());
     }
 }

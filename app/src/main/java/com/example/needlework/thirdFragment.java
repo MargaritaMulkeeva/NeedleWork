@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.SignOutBody;
+import com.example.needlework.NetWork.Models.user.SignOutRequestBody;
 import com.example.needlework.NetWork.Service.ApiService;
 
 import okhttp3.ResponseBody;
@@ -62,7 +62,7 @@ public class thirdFragment extends Fragment {
             @Override
             public void run() {
                 String token = getContext().getSharedPreferences("needleWorkApp", getContext().MODE_PRIVATE).getString("token", "");
-                service.doSignOut(new SignOutBody(token)).enqueue(new Callback<ResponseBody>() {
+                service.doSignOut(new SignOutRequestBody(token)).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.isSuccessful()) {
