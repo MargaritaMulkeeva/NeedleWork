@@ -1,5 +1,6 @@
 package com.example.needlework;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,12 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.needlework.Adapters.CategoriesAdapter;
+import com.example.needlework.Adapters.OnAdapterItemClickListener;
 import com.example.needlework.Adapters.PatternAdapter;
+import com.example.needlework.Discussions.ChooseDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
+import com.example.needlework.Patterns.ChoosePattern;
 
 import java.util.List;
 
@@ -53,6 +57,7 @@ public class firstFragment extends Fragment {
 
         mCategoriesContainer = view.findViewById(R.id.recyclerCategories);
         mPatternContainer = view.findViewById(R.id.patternRecycler);
+
 
         getCategories();
         getPatterns();
@@ -95,10 +100,16 @@ public class firstFragment extends Fragment {
             service.getPopularKnittingPatterns().enqueue(new Callback<List<KnittingPatternResponseBody>>() {
                 @Override
                 public void onResponse(Call<List<KnittingPatternResponseBody>> call, Response<List<KnittingPatternResponseBody>> response) {
-                    if(response.isSuccessful()){
-
+                    if(response.isSuccessful()) {
                         mPattern = response.body();
-                        patternAdapter = new PatternAdapter(mPattern, getContext());
+                        patternAdapter = new PatternAdapter(mPattern, getContext(), new OnAdapterItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Intent intent = new Intent(getContext(), ChoosePattern.class);
+                                intent.putExtra("patternId", mPattern.get(position).getId());
+                                startActivity(intent);
+                            }
+                        });
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         mPatternContainer.setLayoutManager(manager);

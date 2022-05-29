@@ -16,12 +16,15 @@ import java.util.List;
 
 public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.DiscussionHolder> {
 
-    public DiscussionAdapter(List<DiscussionsResponseBody> mDiscussions, Context context) {
+    public DiscussionAdapter(List<DiscussionsResponseBody> mDiscussions, Context context, OnAdapterItemClickListener listener) {
         this.mDiscussions = mDiscussions;
         this.context = context;
+        this.listener = listener;
     }
 
-    public  class DiscussionHolder extends RecyclerView.ViewHolder{
+    public  class DiscussionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private OnAdapterItemClickListener listener;
 
         public TextView tvTheme;
         public TextView tv_nickname;
@@ -29,8 +32,11 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         public TextView tvRating;
         public TextView tv_date;
 
-        public DiscussionHolder(@NonNull View itemView) {
+        public DiscussionHolder(@NonNull View itemView, OnAdapterItemClickListener listener) {
             super(itemView);
+
+            this.listener = listener;
+            itemView.setOnClickListener(this);
 
             tvTheme = itemView.findViewById(R.id.tvTheme);
             tv_nickname = itemView.findViewById(R.id.tv_nickname);
@@ -38,18 +44,23 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
             tvRating = itemView.findViewById(R.id.tvRating);
             tv_date = itemView.findViewById(R.id.tv_date);
         }
+
+        @Override
+        public void onClick(View v) {
+            listener.onItemClick(getAdapterPosition());
+        }
     }
 
     private List<DiscussionsResponseBody> mDiscussions;
     private Context context;
-
+    private OnAdapterItemClickListener listener;
 
     @NonNull
     @Override
     public DiscussionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_list_discussions, parent, false);
-        return new DiscussionAdapter.DiscussionHolder(view);
+        return new DiscussionAdapter.DiscussionHolder(view, listener);
     }
 
     @Override

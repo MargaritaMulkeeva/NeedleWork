@@ -16,6 +16,7 @@ import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.user.RegistrationRequestBody;
 import com.example.needlework.NetWork.Models.user.RegistrationResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
+import com.example.needlework.common.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,9 +36,8 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editor = getSharedPreferences("needleWorkApp", MODE_PRIVATE).edit();
+        editor = getSharedPreferences(Constants.storageName, MODE_PRIVATE).edit();
 
-        et_name = findViewById(R.id.etName);
         et_login = findViewById(R.id.etLogin);
         et_nickname = findViewById(R.id.etNickName);
         et_password = findViewById(R.id.etPassword);
@@ -48,12 +48,12 @@ public class SignUp extends AppCompatActivity {
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doRegistation();
+                doRegistration();
             }
         });
     }
 
-    private void doRegistation(){
+    private void doRegistration(){
         AsyncTask.execute(()->{
             service.doRegistration(getRegistationData()).enqueue(new Callback<RegistrationResponseBody>() {
                 @Override
@@ -85,7 +85,7 @@ public class SignUp extends AppCompatActivity {
     //b344bb79-aae6-496f-b408-d6bdf7932305
 
     public RegistrationRequestBody getRegistationData(){
-        return new RegistrationRequestBody(et_name.getText().toString(), et_nickname.getText().toString(), et_login.getText().toString(), et_password.getText().toString(), et_confirm.getText().toString());
+        return new RegistrationRequestBody(et_nickname.getText().toString(), et_login.getText().toString(), et_password.getText().toString(), et_confirm.getText().toString());
     }
 
 }

@@ -3,8 +3,6 @@ package com.example.needlework.NetWork.Models.user;
 import com.google.gson.annotations.SerializedName;
 
 public class RegistrationRequestBody {
-    @SerializedName("name")
-    private String name;
 
     @SerializedName("nickName")
     private String nickName;
@@ -19,20 +17,11 @@ public class RegistrationRequestBody {
     private String confirm;
 
 
-    public RegistrationRequestBody(String name, String nickName, String login, String password, String confirm) {
-        this.name = name;
+    public RegistrationRequestBody(String nickName, String login, String password, String confirm) {
         this.nickName = nickName;
         this.login = login;
         this.password = password;
         this.confirm = confirm;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getNickName() {

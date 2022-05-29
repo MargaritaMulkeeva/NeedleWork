@@ -4,9 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserResponseBody {
     @SerializedName("id")
-    private String id;
-    @SerializedName("name")
-    private String name;
+    private long id;
     @SerializedName("nickName")
     private String nickName;
     @SerializedName("login")
@@ -16,29 +14,20 @@ public class UserResponseBody {
     @SerializedName("avatar")
     private String avatar;
 
-    public UserResponseBody(String id, String name, String nickName, String login, String password, String avatar) {
+    public UserResponseBody(long id, String nickName, String login, String password, String avatar) {
         this.id = id;
-        this.name = name;
         this.nickName = nickName;
         this.login = login;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getNickName() {

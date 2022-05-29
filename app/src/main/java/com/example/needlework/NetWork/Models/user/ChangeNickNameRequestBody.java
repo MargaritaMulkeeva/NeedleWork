@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class ChangeNickNameRequestBody {
     @SerializedName("userId")
-    private String userId;
+    private long userId;
     @SerializedName("nickName")
     private String nickName;
 
-    public ChangeNickNameRequestBody(String userId, String nickName) {
+    public ChangeNickNameRequestBody(long userId, String nickName) {
         this.userId = userId;
         this.nickName = nickName;
     }
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

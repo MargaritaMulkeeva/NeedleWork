@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class ChangeLoginRequestBody {
     @SerializedName("userId")
-    private String userId;
+    private long userId;
     @SerializedName("login")
     private String login;
 
-    public ChangeLoginRequestBody(String userId, String login) {
+    public ChangeLoginRequestBody(long userId, String login) {
         this.userId = userId;
         this.login = login;
     }
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

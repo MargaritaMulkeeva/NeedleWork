@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ChangePasswordRequestBody {
     @SerializedName("userId")
-    private String userId;
+    private long userId;
     @SerializedName("oldPassword")
     private String oldPassword;
     @SerializedName("newPassword")
@@ -12,18 +12,18 @@ public class ChangePasswordRequestBody {
     @SerializedName("confirm")
     private String confirm;
 
-    public ChangePasswordRequestBody(String userId, String oldPassword, String newPassword, String confirm) {
+    public ChangePasswordRequestBody(long userId, String oldPassword, String newPassword, String confirm) {
         this.userId = userId;
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
         this.confirm = confirm;
     }
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

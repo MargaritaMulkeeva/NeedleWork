@@ -3,7 +3,6 @@ package com.example.needlework.NetWork.Models.discussions;
 import com.google.gson.annotations.SerializedName;
 
 public class DiscussionsResponseBody {
-
     @SerializedName("id")
     private long id;
 
@@ -81,5 +80,13 @@ public class DiscussionsResponseBody {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

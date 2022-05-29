@@ -15,6 +15,7 @@ import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.user.LoginRequestBody;
 import com.example.needlework.NetWork.Models.user.LoginResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
+import com.example.needlework.common.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +38,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        editor = getSharedPreferences("needleWorkApp", MODE_PRIVATE).edit();
+        editor = getSharedPreferences(Constants.storageName, MODE_PRIVATE).edit();
 
         btn_signIn = findViewById(R.id.btn_signIn);
         et_login = findViewById(R.id.etLogin);

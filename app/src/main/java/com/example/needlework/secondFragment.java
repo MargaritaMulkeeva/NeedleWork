@@ -1,5 +1,6 @@
 package com.example.needlework;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -16,9 +17,10 @@ import android.widget.Toast;
 
 import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.DiscussionAdapter;
+import com.example.needlework.Adapters.OnAdapterItemClickListener;
+import com.example.needlework.Discussions.ChooseDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionRequestBody;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
@@ -35,9 +37,13 @@ public class secondFragment extends Fragment {
     private List<CategoriesOfPatternResponseBody> mCategories;
     private RecyclerView recyclerView;
 
-    private DiscussionAdapter discussionAdapter;
-    private List<DiscussionsResponseBody> mDisc;
-    private RecyclerView recyclerViewDisc;
+    private DiscussionAdapter popularDiscussionAdapter;
+    private List<DiscussionsResponseBody> mPopularDiscussions;
+    private RecyclerView recyclerViewPopularDisc;
+
+    private DiscussionAdapter newDiscussionAdapter;
+    private List<DiscussionsResponseBody> mNewDiscussions;
+    private RecyclerView recyclerViewNewDisc;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
@@ -60,8 +66,12 @@ public class secondFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
         recyclerView = view.findViewById(R.id.rv_categoriesDisc);
+        recyclerViewPopularDisc = view.findViewById(R.id.rv_popularDisc);
+        recyclerViewNewDisc = view.findViewById(R.id.rv_newDisc);
+
         getCategories();
-        getDisc();
+        getPopularDiscussions();
+        getNewDiscussions();
         return view;
     }
 
@@ -96,18 +106,62 @@ public class secondFragment extends Fragment {
         });
     }
 
-    private void getDisc(){
+    private void getPopularDiscussions(){
         AsyncTask.execute(()->{
-            service.getDiscussionsByCritetion(new GetDiscussionByCritetionRequestBody("popular")).enqueue(new Callback<GetDiscussionByCritetionResponseBody>() {
+            service.getDiscussionsByCriterion("popular").enqueue(new Callback<GetDiscussionByCritetionResponseBody>() {
                 @Override
                 public void onResponse(Call<GetDiscussionByCritetionResponseBody> call, Response<GetDiscussionByCritetionResponseBody> response) {
                     if(response.isSuccessful()){
-                        mDisc = (List<DiscussionsResponseBody>) response.body().getDiscussions();
-                        discussionAdapter = new DiscussionAdapter(mDisc, getContext());
+                        mPopularDiscussions = response.body().getDiscussions();
+                        popularDiscussionAdapter = new DiscussionAdapter(mPopularDiscussions, getContext(), new OnAdapterItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Intent intent = new Intent(getContext(), ChooseDiscussions.class);
+                                intent.putExtra("discussionId", mPopularDiscussions.get(position).getId());
+                                startActivity(intent);
+                            }
+                        });
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                        recyclerViewDisc.setLayoutManager(manager);
-                        recyclerViewDisc.setAdapter(discussionAdapter);
+                        recyclerViewPopularDisc.setLayoutManager(manager);
+                        recyclerViewPopularDisc.setAdapter(popularDiscussionAdapter);
+                    }
+                    else if(response.code()==400){
+                        String error = ErrorUtils.error(response).getError();
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Не удалось вывести категории схем", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetDiscussionByCritetionResponseBody> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
+
+    private void getNewDiscussions() {
+        AsyncTask.execute(()->{
+            service.getDiscussionsByCriterion("recent").enqueue(new Callback<GetDiscussionByCritetionResponseBody>() {
+                @Override
+                public void onResponse(Call<GetDiscussionByCritetionResponseBody> call, Response<GetDiscussionByCritetionResponseBody> response) {
+                    if(response.isSuccessful()){
+                        mNewDiscussions = response.body().getDiscussions();
+                        newDiscussionAdapter = new DiscussionAdapter(mNewDiscussions, getContext(), new OnAdapterItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Intent intent = new Intent(getContext(), ChooseDiscussions.class);
+                                intent.putExtra("discussionId", mNewDiscussions.get(position).getId());
+                                startActivity(intent);
+                            }
+                        });
+
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerViewNewDisc.setLayoutManager(manager);
+                        recyclerViewNewDisc.setAdapter(newDiscussionAdapter);
                     }
                     else if(response.code()==400){
                         String error = ErrorUtils.error(response).getError();

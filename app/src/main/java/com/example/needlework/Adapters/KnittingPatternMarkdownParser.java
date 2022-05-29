@@ -11,10 +11,10 @@ public class KnittingPatternMarkdownParser {
         for (int i = 0; i < content.size(); i++) {
             switch (content.get(i).getType()) {
                 case "header":
-                    markdown.concat("#" + content.get(i).getContent() + "<br />");
+                    markdown += ("#" + content.get(i).getContent() + "\n\n");
                     break;
                 case "block":
-                    markdown.concat(content.get(i).getContent() + "<br />");
+                    markdown += (content.get(i).getContent() + "\n\n");
                     break;
             }
         }
