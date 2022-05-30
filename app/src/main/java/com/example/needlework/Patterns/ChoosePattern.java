@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spanned;
@@ -20,8 +21,11 @@ import com.example.needlework.MainActivity;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternResponseBody;
+import com.example.needlework.NetWork.Models.userBookmarks.CreateUserBookmarkRequestBody;
+import com.example.needlework.NetWork.Models.userBookmarks.UserBookmarksResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.R;
+import com.example.needlework.common.Constants;
 import com.squareup.picasso.Picasso;
 
 import org.commonmark.node.Node;
@@ -36,14 +40,18 @@ public class ChoosePattern extends AppCompatActivity {
     private long selectedPattern;
 
     private TextView nameText;
+    SharedPreferences sharedPreferences;
+    String token;
     private TextView ratingText;
     private ImageView imageOfProduct;
     private TextView description;
     private ImageView imageOfPattern;
     private TextView instruction;
 
-    ApiService service = ApiHandler.getmInstance().getService();
+    private ImageButton btn_addBookmark;
 
+
+    ApiService service = ApiHandler.getmInstance().getService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +68,10 @@ public class ChoosePattern extends AppCompatActivity {
         description = findViewById(R.id.txt_description);
         imageOfPattern = findViewById(R.id.img_photoKnitting);
         instruction = findViewById(R.id.txt_work);
+        btn_addBookmark = findViewById(R.id.btn_addBookmark);
+
+        sharedPreferences = getSharedPreferences(Constants.storageName, MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
 
         getSelectedPattern();
 
@@ -76,6 +88,22 @@ public class ChoosePattern extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ChoosePattern.this, MainActivity.class));
+            }
+        });
+
+        btn_addBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(token.equals("")){
+                    new AlertDialog.Builder(ChoosePattern.this).setTitle("Ошибка").setMessage("Войдите в аккаунт для добавления схем в закладки").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+                }
+                else {
+                    addBookMark();
+                }
             }
         });
     }
@@ -103,10 +131,6 @@ public class ChoosePattern extends AppCompatActivity {
                                     .into(imageOfPattern);
 
                             String markdownData = KnittingPatternMarkdownParser.GetMarkdownFromPattern(response.body().getWorkProcessDescription());
-//                            Markwon markwon = Markwon.create(ChoosePattern.this);
-//                            Node node = markwon.parse(markdownData);
-//                            Spanned markdown = markwon.render(node);
-//                            markwon.setParsedMarkdown(instruction, markdown);
                             instruction.setText(markdownData);
                         } else {
                             String message = ErrorUtils.error(response).getError();
@@ -120,6 +144,35 @@ public class ChoosePattern extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<KnittingPatternResponseBody> call, Throwable t) {
+                        new AlertDialog.Builder(ChoosePattern.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void addBookMark() {
+        long userId = sharedPreferences.getLong("userId", 0);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                service.createBookmark(new CreateUserBookmarkRequestBody(token, userId, selectedPattern)).enqueue(new Callback<UserBookmarksResponseBody>() {
+                    @Override
+                    public void onResponse(Call<UserBookmarksResponseBody> call, Response<UserBookmarksResponseBody> response) {
+                        if(response.isSuccessful()) {
+                                new AlertDialog.Builder(ChoosePattern.this).setTitle("Успешно").setMessage("Схема успешно добавлена в закладки").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                }).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<UserBookmarksResponseBody> call, Throwable t) {
                         new AlertDialog.Builder(ChoosePattern.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

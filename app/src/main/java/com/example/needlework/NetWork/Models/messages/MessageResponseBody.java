@@ -11,12 +11,23 @@ public class MessageResponseBody {
     private long discussionsId;
     @SerializedName("userId")
     private long userId;
+    @SerializedName("createdAt")
+    private String createdAt;
 
-    public MessageResponseBody(long id, String text, long discussionsId, long userId) {
+    public MessageResponseBody(long id, String text, long discussionsId, long userId, String createdAt) {
         this.id = id;
         this.text = text;
         this.discussionsId = discussionsId;
         this.userId = userId;
+        this.createdAt = createdAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public long getId() {

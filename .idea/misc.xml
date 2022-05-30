@@ -25,19 +25,20 @@
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_choose_pattern.xml" value="0.33" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_lessons.xml" value="0.22" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_profile_for_unregistered_user.xml" value="0.3009833262077811" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_user_book_mark.xml" value="0.22" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/activity_user_discussions.xml" value="0.25" />
-        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/fragment_first.xml" value="0.25" />
+        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/fragment_first.xml" value="0.33" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/fragment_second.xml" value="0.25" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/fragment_third.xml" value="0.33" />
-        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_book_marks.xml" value="0.22" />
+        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_book_marks.xml" value="0.33" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_categories.xml" value="0.75" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_discussions.xml" value="0.5" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_lessons.xml" value="0.36666666666666664" />
-        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_messages.xml" value="0.2" />
+        <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_messages.xml" value="0.75" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_pattern.xml" value="0.5" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/item_list_user_discussions.xml" value="0.22" />
         <entry key="..\:/Documents/Diploma/NeedleWork/app/src/main/res/layout/round_et.xml" value="0.36666666666666664" />

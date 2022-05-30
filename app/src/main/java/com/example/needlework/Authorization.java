@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.needlework.common.Constants;
+
 public class Authorization extends AppCompatActivity {
 
-    Button signUp, signIn;
+    Button signUp, signIn, btn_signInWithoutAccount;
 
     private SharedPreferences sharedPreferences;
     private String token;
@@ -20,16 +22,27 @@ public class Authorization extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        sharedPreferences = getSharedPreferences("needleWorkApp", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Constants.storageName, MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
 
-        if(token!=""){
+        if(!token.equals("")){
             Intent intent = new Intent(Authorization.this, MainActivity.class);
             startActivity(intent);
         }
 
         signIn = findViewById(R.id.btn_signIn);
         signUp = findViewById(R.id.btn_signUp);
+        btn_signInWithoutAccount = findViewById(R.id.btn_signInWithoutAccount);
+
+        btn_signInWithoutAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(token.equals("")){
+                    Intent intent = new Intent(Authorization.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override

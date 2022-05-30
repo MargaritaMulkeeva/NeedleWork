@@ -1,5 +1,7 @@
 package com.example.needlework;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,12 +15,15 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.OnAdapterItemClickListener;
 import com.example.needlework.Adapters.PatternAdapter;
+import com.example.needlework.Discussions.AddDiscussions;
 import com.example.needlework.Discussions.ChooseDiscussions;
+import com.example.needlework.Lessons.Lessons;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
@@ -41,6 +46,8 @@ public class firstFragment extends Fragment {
     private List<KnittingPatternResponseBody> mPattern;
     private RecyclerView mPatternContainer;
 
+    Button btn_go;
+
     private ApiService service = ApiHandler.getmInstance().getService();
 
 
@@ -57,6 +64,14 @@ public class firstFragment extends Fragment {
 
         mCategoriesContainer = view.findViewById(R.id.recyclerCategories);
         mPatternContainer = view.findViewById(R.id.patternRecycler);
+        btn_go = view.findViewById(R.id.btn_go);
+        btn_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Lessons.class);
+                startActivity(intent);
+            }
+        });
 
 
         getCategories();
@@ -78,18 +93,23 @@ public class firstFragment extends Fragment {
                         mCategoriesContainer.setLayoutManager(manager);
                         mCategoriesContainer.setAdapter(categoriesAdapter);
                     }
-                    else if(response.code()==400){
-                        String error = ErrorUtils.error(response).getError();
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                    }
                     else {
-                        Toast.makeText(getContext(), "Не удалось вывести категории схем", Toast.LENGTH_SHORT).show();
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             });
         });
@@ -116,18 +136,23 @@ public class firstFragment extends Fragment {
                         mPatternContainer.setAdapter(patternAdapter);
 
                     }
-                    else if(response.code()==400){
-                        String error = ErrorUtils.error(response).getError();
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                    }
                     else {
-                        Toast.makeText(getContext(), "Не удалось вывести схемы", Toast.LENGTH_SHORT).show();
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<KnittingPatternResponseBody>> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             });
         });

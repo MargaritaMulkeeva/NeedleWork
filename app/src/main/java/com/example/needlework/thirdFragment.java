@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ import com.example.needlework.NetWork.Models.user.SignOutRequestBody;
 import com.example.needlework.NetWork.Models.user.UserResponseBody;
 import com.example.needlework.NetWork.Models.user.UserUpdateResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
+import com.example.needlework.Profile.UserBookMark;
+import com.example.needlework.Profile.UserDiscussions;
 import com.example.needlework.common.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -52,6 +55,8 @@ public class thirdFragment extends Fragment {
     private EditText newPassword;
     private EditText confirmPassword;
     private EditText loginEdit;
+
+    ImageButton btnBookMark, btnDisc;
 
     public thirdFragment() {
     }
@@ -78,6 +83,25 @@ public class thirdFragment extends Fragment {
         newPassword = view.findViewById(R.id.et_newPassword);
         confirmPassword = view.findViewById(R.id.et_repeatPassword);
         loginEdit = view.findViewById(R.id.et_newLogin);
+
+        btnBookMark = view.findViewById(R.id.btn_bookmark);
+        btnBookMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UserDiscussions.class);
+                startActivity(intent);
+            }
+        });
+        btnDisc = view.findViewById(R.id.btn_userDisc);
+        btnDisc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UserBookMark.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         storage = getContext().getSharedPreferences(Constants.storageName, getContext().MODE_PRIVATE);
 
@@ -141,7 +165,6 @@ public class thirdFragment extends Fragment {
                                     .into(avatar);
                             nickNameText.setText(currentUserData.getNickName());
                             nickNameEdit.setText(currentUserData.getNickName());
-
                             loginEdit.setText(currentUserData.getLogin());
                         } else {
                             String message = ErrorUtils.error(response).getError();

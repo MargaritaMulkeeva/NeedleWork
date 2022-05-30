@@ -2,6 +2,8 @@ package com.example.needlework;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,8 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.needlework.Discussions.AddDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
+import com.example.needlework.NetWork.Models.user.GetUserResponseBody;
 import com.example.needlework.NetWork.Models.user.LoginRequestBody;
 import com.example.needlework.NetWork.Models.user.LoginResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
@@ -58,22 +62,40 @@ public class SignIn extends AppCompatActivity {
             public void onResponse(Call<LoginResponseBody> call, Response<LoginResponseBody> response) {
                 if(response.isSuccessful()){
                     editor.putString("token", response.body().getToken()).apply();
-                    editor.commit();
+                    service.getUser(response.body().getToken()).enqueue(new Callback<GetUserResponseBody>() {
+                        @Override
+                        public void onResponse(Call<GetUserResponseBody> call, Response<GetUserResponseBody> response) {
+                            if (response.isSuccessful()){
+                                editor.putLong("userId", response.body().getUser().getId()).apply();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<GetUserResponseBody> call, Throwable t) {
+
+                        }
+                    });
                     Intent intent = new Intent(SignIn.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
-                else if(response.code()==400){
-                    String serverErrorMessage = ErrorUtils.error(response).getError();
-                    Toast.makeText(getApplicationContext(), serverErrorMessage, Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(SignIn.this, "Произошла неизвестная ошибка! Попробуйте позже", Toast.LENGTH_SHORT).show();
+                else {
+                    String message = ErrorUtils.error(response).getError();
+                    new AlertDialog.Builder(SignIn.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(SignIn.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
             }
         });
     }

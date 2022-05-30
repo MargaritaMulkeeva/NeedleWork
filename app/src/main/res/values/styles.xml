@@ -39,6 +39,6 @@
 
     <style name="MyRatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#CE796B</item>
-        <item name="colorControlActivated">#CE796B</item>
+        <item name="colorControlActivated">@color/black</item>
     </style>
 </resources>

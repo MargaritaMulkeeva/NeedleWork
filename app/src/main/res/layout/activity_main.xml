@@ -8,7 +8,7 @@
     android:background="@color/MainPink"
     android:orientation="vertical">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"

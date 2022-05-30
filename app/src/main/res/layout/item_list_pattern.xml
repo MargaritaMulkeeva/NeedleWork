@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/round_panel"
-    android:elevation="10dp"
+    android:elevation="5dp"
     android:layout_marginBottom="16dp">
 
     <LinearLayout
@@ -13,20 +13,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            app:cardCornerRadius="8dp"
-            app:cardBackgroundColor="@color/MainOrange">
-
             <ImageView
                 android:id="@+id/img_photo"
                 android:layout_width="90dp"
+                android:scaleType="fitCenter"
                 android:layout_height="70dp"
-                android:src="@drawable/gray"
-                android:scaleType="center"/>
-        </androidx.cardview.widget.CardView>
+                android:src="@drawable/avatar_placeholder"/>
 
         <LinearLayout
             android:layout_width="match_parent"

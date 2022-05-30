@@ -6,6 +6,7 @@ import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatter
 import com.example.needlework.NetWork.Models.lessons.LessonResponseBody;
 import com.example.needlework.NetWork.Models.messages.CreateMessageRequestBody;
 import com.example.needlework.NetWork.Models.messages.CreateMessageResponseBody;
+import com.example.needlework.NetWork.Models.messages.GetMessageByDiscussionResponseBody;
 import com.example.needlework.NetWork.Models.user.ChangeAvatarRequestBody;
 import com.example.needlework.NetWork.Models.user.ChangeLoginRequestBody;
 import com.example.needlework.NetWork.Models.user.ChangeNickNameRequestBody;
@@ -79,7 +80,7 @@ public interface ApiService {
     @POST("messages/create")
     Call<CreateMessageResponseBody> createMessage(@Body CreateMessageRequestBody body);
     @GET("message/get-discussion/{id}")
-    Call<GetDiscussionByCritetionResponseBody> getMessageByDiscussion(@Path("id") long id);
+    Call<GetMessageByDiscussionResponseBody> getMessageByDiscussion(@Path("id") long id);
 
     @POST("userBookmarks/create")
     Call<UserBookmarksResponseBody> createBookmark(@Body CreateUserBookmarkRequestBody body);

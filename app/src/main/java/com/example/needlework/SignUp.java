@@ -2,6 +2,8 @@ package com.example.needlework;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.needlework.Discussions.AddDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.user.RegistrationRequestBody;
@@ -24,7 +27,7 @@ import retrofit2.Response;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText et_name,et_login,et_nickname,et_password,et_confirm;
+    EditText et_login,et_nickname,et_password,et_confirm;
     Button btn_signUp;
     private static final String TAG = "Registration";
 
@@ -60,32 +63,35 @@ public class SignUp extends AppCompatActivity {
                 public void onResponse(Call<RegistrationResponseBody> call, Response<RegistrationResponseBody> response) {
                     if(response.isSuccessful()) {
                         editor.putString("token", response.body().getToken()).apply();
-                        editor.commit();
+                        editor.putLong("userId", response.body().getUser().getId()).apply();
                         Intent intent = new Intent(SignUp.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                         Toast.makeText(SignUp.this, "Успешная регистрация", Toast.LENGTH_SHORT).show();
-                    }else if (response.code()==400){
-                        String message = ErrorUtils.error(response).getError();
-                        Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(SignUp.this, "Произошла ошибка", Toast.LENGTH_SHORT).show();
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(SignUp.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RegistrationResponseBody> call, Throwable t) {
-                    Toast.makeText(SignUp.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(SignUp.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             });
         });
     }
 
-    //b344bb79-aae6-496f-b408-d6bdf7932305
-
     public RegistrationRequestBody getRegistationData(){
         return new RegistrationRequestBody(et_nickname.getText().toString(), et_login.getText().toString(), et_password.getText().toString(), et_confirm.getText().toString());
     }
-
 }

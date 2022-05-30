@@ -20,6 +20,7 @@
             app:cardBackgroundColor="@color/BackPanelOrange">
 
             <ImageView
+                android:id="@+id/photo"
                 android:layout_width="34dp"
                 android:layout_height="31dp"
                 android:src="@drawable/gray"/>
@@ -53,13 +54,13 @@
 
         <TextView
             android:id="@+id/tv_message"
+            style="@style/secondRegularText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/secondRegularText"
-            android:textSize="9dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="42dp"
             android:text="СообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщение"
-            android:layout_gravity="center_vertical"/>
+            android:textSize="9dp" />
     </LinearLayout>
 
     <ImageView

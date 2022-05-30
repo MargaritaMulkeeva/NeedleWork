@@ -97,17 +97,12 @@
                     android:src="@drawable/bookmark"/>
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                android:layout_marginTop="16dp">
-
                 <ImageView
                     android:id="@+id/img_photoThing"
                     android:layout_width="363dp"
-                    android:layout_height="251dp"/>
-            </androidx.cardview.widget.CardView>
+                    android:layout_height="251dp"
+                    app:cardBackgroundColor="#0000"
+                    android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/txt_description"
@@ -127,17 +122,12 @@
                 android:layout_marginTop="32dp"
                 android:layout_gravity="center_horizontal"/>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                android:layout_marginTop="16dp">
-
                 <ImageView
                     android:id="@+id/img_photoKnitting"
                     android:layout_width="363dp"
-                    android:layout_height="251dp"/>
-            </androidx.cardview.widget.CardView>
+                    android:layout_height="251dp"
+                    app:cardBackgroundColor="#0000"
+                    android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/txt_work"
@@ -158,10 +148,12 @@
 
             <RatingBar
                 android:id="@+id/rating"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleIndicator"
                 android:theme="@style/MyRatingBar"
-                android:layout_marginTop="8dp"
+                android:layout_marginLeft="-8dp"
+                android:layout_marginRight="-8dp"
                 android:layout_marginBottom="8dp"
                 android:numStars="10"/>
         </LinearLayout>

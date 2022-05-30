@@ -1,5 +1,7 @@
 package com.example.needlework;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,11 +15,13 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.Adapters.OnAdapterItemClickListener;
+import com.example.needlework.Discussions.AddDiscussions;
 import com.example.needlework.Discussions.ChooseDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
@@ -45,6 +49,8 @@ public class secondFragment extends Fragment {
     private List<DiscussionsResponseBody> mNewDiscussions;
     private RecyclerView recyclerViewNewDisc;
 
+    Button btn_createDisc;
+
     private ApiService service = ApiHandler.getmInstance().getService();
 
     public secondFragment() {
@@ -69,6 +75,15 @@ public class secondFragment extends Fragment {
         recyclerViewPopularDisc = view.findViewById(R.id.rv_popularDisc);
         recyclerViewNewDisc = view.findViewById(R.id.rv_newDisc);
 
+        btn_createDisc = view.findViewById(R.id.btn_createDisc);
+
+        btn_createDisc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AddDiscussions.class));
+            }
+        });
+
         getCategories();
         getPopularDiscussions();
         getNewDiscussions();
@@ -89,18 +104,22 @@ public class secondFragment extends Fragment {
                         recyclerView.setLayoutManager(manager);
                         recyclerView.setAdapter(categoriesAdapter);
                     }
-                    else  if(response.code()==400){
-                        String error = ErrorUtils.error(response).getError();
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                    }
                     else {
-                        Toast.makeText(getContext(), "Не удалось вывести категории обсуждений", Toast.LENGTH_SHORT).show();
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             });
         });
@@ -126,18 +145,23 @@ public class secondFragment extends Fragment {
                         recyclerViewPopularDisc.setLayoutManager(manager);
                         recyclerViewPopularDisc.setAdapter(popularDiscussionAdapter);
                     }
-                    else if(response.code()==400){
-                        String error = ErrorUtils.error(response).getError();
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                    }
                     else {
-                        Toast.makeText(getContext(), "Не удалось вывести категории схем", Toast.LENGTH_SHORT).show();
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<GetDiscussionByCritetionResponseBody> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             });
         });
@@ -163,18 +187,23 @@ public class secondFragment extends Fragment {
                         recyclerViewNewDisc.setLayoutManager(manager);
                         recyclerViewNewDisc.setAdapter(newDiscussionAdapter);
                     }
-                    else if(response.code()==400){
-                        String error = ErrorUtils.error(response).getError();
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                    }
                     else {
-                        Toast.makeText(getContext(), "Не удалось вывести категории схем", Toast.LENGTH_SHORT).show();
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<GetDiscussionByCritetionResponseBody> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
                 }
             });
         });

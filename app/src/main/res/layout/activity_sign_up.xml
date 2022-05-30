@@ -82,7 +82,7 @@
                 android:layout_width="277dp"
                 android:layout_height="35dp"
                 android:background="@drawable/round_et"
-                android:inputType="textPersonName"
+                android:inputType="textPassword"
                 android:hint="Пароль"
                 android:textColorHint="@color/MainText"
                 android:textSize="12dp"/>
@@ -101,8 +101,8 @@
                 android:layout_width="277dp"
                 android:layout_height="35dp"
                 android:background="@drawable/round_et"
-                android:inputType="textPersonName"
                 android:hint="Повторите пароль"
+                android:inputType="textPassword"
                 android:textColorHint="@color/MainText"
                 android:textSize="12dp"/>
         </LinearLayout>

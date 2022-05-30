@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btn_back"
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/arrow"
@@ -29,39 +29,27 @@
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_marginTop="5dp"
+                style="@style/topText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                style="@style/topText"
-                android:textSize="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="Уроки"/>
+                android:text="Уроки"
+                android:textSize="20dp" />
         </RelativeLayout>
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:elevation="10dp"
-            android:background="@drawable/round_view"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_lessons"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        </LinearLayout>
-
-    </ScrollView>
+    <WebView
+        android:id="@+id/video"
+        android:layout_width="363dp"
+        android:layout_height="222dp"
+        android:src="@drawable/gray"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"/>
 
 
 </LinearLayout>
