@@ -29,6 +29,7 @@
             android:layout_marginTop="16dp">
 
             <EditText
+                android:id="@+id/etSearch"
                 android:layout_width="285dp"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -48,6 +49,10 @@
                 android:textSize="10dp"/>
         </LinearLayout>
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,6 +115,21 @@
                 android:layout_marginTop="32dp"
                 style="@style/topText"
                 android:textSize="15dp"
+                android:text="Все схемы"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/allPatternRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="32dp"
+                style="@style/topText"
+                android:textSize="15dp"
                 android:text="Популярные"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -118,4 +138,5 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"/>
         </LinearLayout>
+    </ScrollView>
 </LinearLayout>

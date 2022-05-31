@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.needlework.Adapters.AllDiscusionsAdapter;
 import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.Adapters.OnAdapterItemClickListener;
@@ -25,10 +26,12 @@ import com.example.needlework.Discussions.AddDiscussions;
 import com.example.needlework.Discussions.ChooseDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
+import com.example.needlework.NetWork.Models.discussions.GetAllDiscussions;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
+import com.example.needlework.Patterns.ChoosePattern;
 
 import java.util.List;
 
@@ -48,6 +51,10 @@ public class secondFragment extends Fragment {
     private DiscussionAdapter newDiscussionAdapter;
     private List<DiscussionsResponseBody> mNewDiscussions;
     private RecyclerView recyclerViewNewDisc;
+
+    private AllDiscusionsAdapter allDiscussionsAdapter;
+    private List<GetAllDiscussions> mAllDisc;
+    private RecyclerView recyclerViewAllDisc;
 
     Button btn_createDisc;
 
@@ -73,7 +80,8 @@ public class secondFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_categoriesDisc);
         recyclerViewPopularDisc = view.findViewById(R.id.rv_popularDisc);
-        recyclerViewNewDisc = view.findViewById(R.id.rv_newDisc);
+        //recyclerViewNewDisc = view.findViewById(R.id.rv_newDisc);
+        recyclerViewAllDisc = view.findViewById(R.id.rv_AllDisc);
 
         btn_createDisc = view.findViewById(R.id.btn_createDisc);
 
@@ -86,7 +94,7 @@ public class secondFragment extends Fragment {
 
         getCategories();
         getPopularDiscussions();
-        getNewDiscussions();
+        getAllDisc();
         return view;
     }
 
@@ -115,6 +123,49 @@ public class secondFragment extends Fragment {
                 }
                 @Override
                 public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+                }
+            });
+        });
+    }
+
+    private void getAllDisc(){
+        AsyncTask.execute(()->{
+            service.getAllDisc().enqueue(new Callback<List<GetAllDiscussions>>() {
+                @Override
+                public void onResponse(Call<List<GetAllDiscussions>> call, Response<List<GetAllDiscussions>> response) {
+                    if(response.isSuccessful()){
+                        mAllDisc = response.body();
+                        allDiscussionsAdapter = new AllDiscusionsAdapter(mAllDisc, getContext(), new OnAdapterItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Intent intent = new Intent(getContext(), ChoosePattern.class);
+                                intent.putExtra("patternId", mAllDisc.get(position).getId());
+                                startActivity(intent);
+                            }
+                        });
+
+                        SnapHelper snapHelper = new PagerSnapHelper();
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerViewAllDisc.setLayoutManager(manager);
+                        recyclerViewAllDisc.setAdapter(allDiscussionsAdapter);
+                    }
+                    else {
+                        String message = ErrorUtils.error(response).getError();
+                        new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<GetAllDiscussions>> call, Throwable t) {
                     new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

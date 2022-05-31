@@ -84,16 +84,16 @@ public class thirdFragment extends Fragment {
         confirmPassword = view.findViewById(R.id.et_repeatPassword);
         loginEdit = view.findViewById(R.id.et_newLogin);
 
-        btnBookMark = view.findViewById(R.id.btn_bookmark);
-        btnBookMark.setOnClickListener(new View.OnClickListener() {
+        btnDisc = view.findViewById(R.id.btn_bookmark);
+        btnDisc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), UserDiscussions.class);
                 startActivity(intent);
             }
         });
-        btnDisc = view.findViewById(R.id.btn_userDisc);
-        btnDisc.setOnClickListener(new View.OnClickListener() {
+        btnBookMark = view.findViewById(R.id.btn_userDisc);
+        btnBookMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), UserBookMark.class);

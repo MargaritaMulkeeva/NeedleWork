@@ -22,7 +22,7 @@ public class ErrorUtils {
             error = converter.convert(response.errorBody());
         }
         catch (Exception e){
-            return new ApiError("Произлшла неизвестная ошибка. Попробуйте позже");
+            return new ApiError("Произошла неизвестная ошибка. Попробуйте позже");
         }
         return error;
     }

@@ -1,8 +1,10 @@
 package com.example.needlework.NetWork.Service;
 
 import com.example.needlework.NetWork.Models.discussions.CreateDiscussionRequestBody;
+import com.example.needlework.NetWork.Models.discussions.GetAllDiscussions;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
+import com.example.needlework.NetWork.Models.knittingPatterns.GetAllKnittingPatterns;
 import com.example.needlework.NetWork.Models.lessons.LessonResponseBody;
 import com.example.needlework.NetWork.Models.messages.CreateMessageRequestBody;
 import com.example.needlework.NetWork.Models.messages.CreateMessageResponseBody;
@@ -64,6 +66,8 @@ public interface ApiService {
     Call<List<KnittingPatternResponseBody>> getPopularKnittingPatterns();
     @GET("knittingPatterns/get-one/{id}")
     Call<KnittingPatternResponseBody> getKnittingPattern(@Path("id") long id);
+    @GET("knittingPatterns/get-all")
+    Call<List<GetAllKnittingPatterns>> getAllPatterns();
 
     @GET("discussions-type/get-all")
     Call<List<CategoriesOfPatternResponseBody>> getCategoriesOfDiscussion();
@@ -73,6 +77,8 @@ public interface ApiService {
     Call<GetDiscussionByCritetionResponseBody> getDiscussionsByCriterion(@Path("criterion") String criterion);
     @GET("discussions/get-one/{id}")
     Call<DiscussionsResponseBody> getDiscussionsById(@Path("id") long id);
+    @GET("discussions/get-all")
+    Call<List<GetAllDiscussions>> getAllDisc();
 
     @GET("lessons/get-all")
     Call<List<LessonResponseBody>> getLessons();
