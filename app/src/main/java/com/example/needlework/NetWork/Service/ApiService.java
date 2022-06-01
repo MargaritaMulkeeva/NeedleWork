@@ -1,7 +1,6 @@
 package com.example.needlework.NetWork.Service;
 
 import com.example.needlework.NetWork.Models.discussions.CreateDiscussionRequestBody;
-import com.example.needlework.NetWork.Models.discussions.GetAllDiscussions;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.GetAllKnittingPatterns;
@@ -21,7 +20,6 @@ import com.example.needlework.NetWork.Models.user.LoginResponseBody;
 import com.example.needlework.NetWork.Models.user.RegistrationRequestBody;
 import com.example.needlework.NetWork.Models.user.RegistrationResponseBody;
 import com.example.needlework.NetWork.Models.user.SignOutRequestBody;
-import com.example.needlework.NetWork.Models.user.UserResponseBody;
 import com.example.needlework.NetWork.Models.user.UserUpdateResponseBody;
 import com.example.needlework.NetWork.Models.userBookmarks.CreateUserBookmarkRequestBody;
 import com.example.needlework.NetWork.Models.userBookmarks.UserBookmarksResponseBody;
@@ -78,14 +76,14 @@ public interface ApiService {
     @GET("discussions/get-one/{id}")
     Call<DiscussionsResponseBody> getDiscussionsById(@Path("id") long id);
     @GET("discussions/get-all")
-    Call<List<GetAllDiscussions>> getAllDisc();
+    Call<List<DiscussionsResponseBody>> getAllDisc();
 
     @GET("lessons/get-all")
     Call<List<LessonResponseBody>> getLessons();
 
     @POST("messages/create")
     Call<CreateMessageResponseBody> createMessage(@Body CreateMessageRequestBody body);
-    @GET("message/get-discussion/{id}")
+    @GET("messages/get-discussion/{id}")
     Call<GetMessageByDiscussionResponseBody> getMessageByDiscussion(@Path("id") long id);
 
     @POST("userBookmarks/create")

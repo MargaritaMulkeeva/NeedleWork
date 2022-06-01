@@ -16,9 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
 
-import com.example.needlework.Adapters.AllDiscusionsAdapter;
 import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.Adapters.OnAdapterItemClickListener;
@@ -26,13 +25,14 @@ import com.example.needlework.Discussions.AddDiscussions;
 import com.example.needlework.Discussions.ChooseDiscussions;
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
-import com.example.needlework.NetWork.Models.discussions.GetAllDiscussions;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
+import com.example.needlework.NetWork.Models.knittingPatterns.GetAllKnittingPatterns;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.Patterns.ChoosePattern;
 
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,11 +52,13 @@ public class secondFragment extends Fragment {
     private List<DiscussionsResponseBody> mNewDiscussions;
     private RecyclerView recyclerViewNewDisc;
 
-    private AllDiscusionsAdapter allDiscussionsAdapter;
-    private List<GetAllDiscussions> mAllDisc;
+    private DiscussionAdapter allDiscussionsAdapter;
+    private List<DiscussionsResponseBody> mAllDisc;
     private RecyclerView recyclerViewAllDisc;
 
-    Button btn_createDisc;
+    Button btn_createDisc, btnSearch;
+
+    EditText etSearch;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
@@ -82,8 +84,22 @@ public class secondFragment extends Fragment {
         recyclerViewPopularDisc = view.findViewById(R.id.rv_popularDisc);
         //recyclerViewNewDisc = view.findViewById(R.id.rv_newDisc);
         recyclerViewAllDisc = view.findViewById(R.id.rv_AllDisc);
+        etSearch = view.findViewById(R.id.etSearch);
 
         btn_createDisc = view.findViewById(R.id.btn_createDisc);
+        btnSearch = view.findViewById(R.id.btnSearch);
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearch = view.findViewById(R.id.etSearch);
+                if(etSearch.getText().toString().equals("")){
+                    getAllDisc();
+                } else {
+                    searchItem(etSearch.getText().toString());
+                }
+            }
+        });
 
         btn_createDisc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +112,14 @@ public class secondFragment extends Fragment {
         getPopularDiscussions();
         getAllDisc();
         return view;
+    }
+
+    public void searchItem(String textToSearch){
+        for (Iterator<DiscussionsResponseBody> it = mAllDisc.iterator(); it.hasNext();) {
+            if (!it.next().getTheme().toLowerCase().contains(textToSearch))
+                it.remove();
+        }
+        allDiscussionsAdapter.notifyDataSetChanged();
     }
 
     private void getCategories(){
@@ -135,16 +159,16 @@ public class secondFragment extends Fragment {
 
     private void getAllDisc(){
         AsyncTask.execute(()->{
-            service.getAllDisc().enqueue(new Callback<List<GetAllDiscussions>>() {
+            service.getAllDisc().enqueue(new Callback<List<DiscussionsResponseBody>>() {
                 @Override
-                public void onResponse(Call<List<GetAllDiscussions>> call, Response<List<GetAllDiscussions>> response) {
+                public void onResponse(Call<List<DiscussionsResponseBody>> call, Response<List<DiscussionsResponseBody>> response) {
                     if(response.isSuccessful()){
                         mAllDisc = response.body();
-                        allDiscussionsAdapter = new AllDiscusionsAdapter(mAllDisc, getContext(), new OnAdapterItemClickListener() {
+                        allDiscussionsAdapter = new DiscussionAdapter(mAllDisc, getContext(), new OnAdapterItemClickListener() {
                             @Override
                             public void onItemClick(int position) {
-                                Intent intent = new Intent(getContext(), ChoosePattern.class);
-                                intent.putExtra("patternId", mAllDisc.get(position).getId());
+                                Intent intent = new Intent(getContext(), ChooseDiscussions.class);
+                                intent.putExtra("discussionId", mAllDisc.get(position).getId());
                                 startActivity(intent);
                             }
                         });
@@ -165,7 +189,7 @@ public class secondFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<List<GetAllDiscussions>> call, Throwable t) {
+                public void onFailure(Call<List<DiscussionsResponseBody>> call, Throwable t) {
                     new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

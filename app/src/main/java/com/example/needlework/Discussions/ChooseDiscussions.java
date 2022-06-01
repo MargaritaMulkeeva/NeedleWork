@@ -127,7 +127,7 @@ public class ChooseDiscussions extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<GetMessageByDiscussionResponseBody> call, Response<GetMessageByDiscussionResponseBody> response) {
                         if(response.isSuccessful()){
-                            mMessages = (List<MessageResponseBody>) response.body();
+                            mMessages =  response.body().getMessages();
                             messageAdapter = new MessageAdapter(mMessages, ChooseDiscussions.this);
 
                             SnapHelper snapHelper = new PagerSnapHelper();

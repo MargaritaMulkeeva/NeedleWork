@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +39,9 @@ import com.example.needlework.NetWork.Models.knittingPatterns.KnittingPatternRes
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.Patterns.ChoosePattern;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,9 +60,10 @@ public class firstFragment extends Fragment {
     private List<GetAllKnittingPatterns> mAllPattern;
     private RecyclerView mAllPatternContainer;
 
+
     EditText etSearch;
 
-    Button btn_go;
+    Button btn_go, btnSearch;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
@@ -77,29 +82,19 @@ public class firstFragment extends Fragment {
         mCategoriesContainer = view.findViewById(R.id.recyclerCategories);
         mPatternContainer = view.findViewById(R.id.patternRecycler);
         mAllPatternContainer = view.findViewById(R.id.allPatternRecycler);
+        btnSearch = view.findViewById(R.id.btnSearch);
 
-
-        etSearch = view.findViewById(R.id.etSearch);
-//        etSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(s.toString().equals("")){
-//                    getAllPatterns();
-//                } else {
-//                    searchItem(s.toString());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearch = view.findViewById(R.id.etSearch);
+                if(etSearch.getText().toString().equals("")){
+                    getAllPatterns();
+                } else {
+                    searchItem(etSearch.getText().toString());
+                }
+            }
+        });
 
         btn_go = view.findViewById(R.id.btn_go);
         btn_go.setOnClickListener(new View.OnClickListener() {
@@ -117,14 +112,13 @@ public class firstFragment extends Fragment {
         return view;
     }
 
-//    public void searchItem(String textToSearch){
-//        for(String item:items){
-//            if(!item.contains(textToSearch)){
-//
-//            }
-//        }
-//        allPatternAdapter.notifyDataSetChanged();
-//    }
+    public void searchItem(String textToSearch){
+        for (Iterator<GetAllKnittingPatterns> it = mAllPattern.iterator(); it.hasNext();) {
+            if (!it.next().getName().toLowerCase().contains(textToSearch))
+                it.remove();
+        }
+        allPatternAdapter.notifyDataSetChanged();
+    }
 
     private void getCategories(){
         AsyncTask.execute(()->{

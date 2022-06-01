@@ -15,6 +15,7 @@ import com.example.needlework.NetWork.Models.messages.MessageResponseBody;
 import com.example.needlework.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageHolder> {
@@ -57,12 +58,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         final MessageResponseBody messages = mMessage.get(position);
 
         holder.nickName.setText(String.valueOf(messages.getUserId()));
+        //SimpleDateFormat dt1 = new SimpleDateFormat("dd.mm.yyyy");
         holder.date.setText(messages.getCreatedAt());
         holder.message.setText(messages.getText());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mMessage.size();
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.DiscussionHolder> {
@@ -71,6 +72,7 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         holder.tv_nickname.setText(String.valueOf(discussions.getUserId()));
         holder.tv_category.setText(String.valueOf(discussions.getCategoryOfDiscussionsId()));
         holder.tvRating.setText(String.valueOf(discussions.getRating()));
+        //SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm-yyyy");
         holder.tv_date.setText(discussions.getCreatedAt());
     }
 
