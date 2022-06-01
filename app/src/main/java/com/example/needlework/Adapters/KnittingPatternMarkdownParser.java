@@ -11,7 +11,7 @@ public class KnittingPatternMarkdownParser {
         for (int i = 0; i < content.size(); i++) {
             switch (content.get(i).getType()) {
                 case "header":
-                    markdown += ("#" + content.get(i).getContent() + "\n\n");
+                    markdown += (content.get(i).getContent() + "\n\n");
                     break;
                 case "block":
                     markdown += (content.get(i).getContent() + "\n\n");

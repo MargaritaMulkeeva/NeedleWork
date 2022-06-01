@@ -330,7 +330,7 @@
                     android:layout_weight="1"
                     style="@style/darkRegularText"
                     android:textSize="15dp"
-                    android:text="Ваши обсуждения"
+                    android:text="Закладки"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"/>
 
@@ -369,7 +369,7 @@
                     android:layout_weight="1"
                     style="@style/darkRegularText"
                     android:textSize="15dp"
-                    android:text="Закладки"
+                    android:text="Ваши обсуждения"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"/>
 

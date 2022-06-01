@@ -9,18 +9,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
+import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
+import com.example.needlework.NetWork.Models.user.GetUserResponseBody;
+import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.DiscussionHolder> {
 
-    public DiscussionAdapter(List<DiscussionsResponseBody> mDiscussions, Context context, OnAdapterItemClickListener listener) {
+    public DiscussionAdapter(List<DiscussionsResponseBody> mDiscussions, Context context, OnAdapterItemClickListener listener, String token) {
         this.mDiscussions = mDiscussions;
         this.context = context;
         this.listener = listener;
+        this.token = token;
     }
 
     public  class DiscussionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -55,6 +65,8 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
     private List<DiscussionsResponseBody> mDiscussions;
     private Context context;
     private OnAdapterItemClickListener listener;
+    private ApiService service = ApiHandler.getmInstance().getService();
+    String token;
 
     @NonNull
     @Override
@@ -69,11 +81,39 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         final DiscussionsResponseBody discussions = mDiscussions.get(position);
 
         holder.tvTheme.setText(discussions.getTheme());
-        holder.tv_nickname.setText(String.valueOf(discussions.getUserId()));
-        holder.tv_category.setText(String.valueOf(discussions.getCategoryOfDiscussionsId()));
         holder.tvRating.setText(String.valueOf(discussions.getRating()));
-        //SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm-yyyy");
-        holder.tv_date.setText(discussions.getCreatedAt());
+        holder.tv_date.setText(discussions.getCreatedAt().substring(0, 10));
+
+        service.getUser(token).enqueue(new Callback<GetUserResponseBody>() {
+            @Override
+            public void onResponse(Call<GetUserResponseBody> call, Response<GetUserResponseBody> response) {
+                if (response.isSuccessful()){
+                    holder.tv_nickname.setText(response.body().getUser().getNickName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserResponseBody> call, Throwable t) {
+
+            }
+        });
+
+        service.getCategoriesOfDiscussion().enqueue(new Callback<List<CategoriesOfPatternResponseBody>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesOfPatternResponseBody>> call, Response<List<CategoriesOfPatternResponseBody>> response) {
+                for (int i = 0; i < response.body().size(); i++){
+                    if(response.body().get(i).getId()==discussions.getCategoryOfDiscussionsId()){
+                        holder.tv_category.setText(response.body().get(i).getName());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override

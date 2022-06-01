@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.R;
+import com.example.needlework.common.Constants;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class AddDiscussions extends AppCompatActivity {
     private RecyclerView recyclerViewPopularDisc;
 
     RecyclerView rvDisc;
+    String token;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
@@ -48,6 +51,8 @@ public class AddDiscussions extends AppCompatActivity {
 
         img_back = findViewById(R.id.btn_back);
         recyclerViewPopularDisc = findViewById(R.id.rv_popular);
+
+        token = getSharedPreferences(Constants.storageName, Context.MODE_PRIVATE).getString("token", "");
 
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +79,7 @@ public class AddDiscussions extends AppCompatActivity {
                                 intent.putExtra("discussionId", mPopularDiscussions.get(position).getId());
                                 startActivity(intent);
                             }
-                        });
+                        },token);
 
                         LinearLayoutManager manager = new LinearLayoutManager(AddDiscussions.this, LinearLayoutManager.VERTICAL, false);
                         recyclerViewPopularDisc.setLayoutManager(manager);

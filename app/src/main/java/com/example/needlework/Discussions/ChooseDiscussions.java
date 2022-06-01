@@ -1,6 +1,7 @@
 package com.example.needlework.Discussions;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,11 +31,16 @@ import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
+import com.example.needlework.NetWork.Models.messages.CreateMessageRequestBody;
+import com.example.needlework.NetWork.Models.messages.CreateMessageResponseBody;
 import com.example.needlework.NetWork.Models.messages.GetMessageByDiscussionResponseBody;
 import com.example.needlework.NetWork.Models.messages.MessageResponseBody;
+import com.example.needlework.NetWork.Models.user.RegistrationRequestBody;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.Patterns.ChoosePattern;
 import com.example.needlework.R;
+import com.example.needlework.SignUp;
+import com.example.needlework.common.Constants;
 import com.example.needlework.secondFragment;
 
 import java.util.List;
@@ -45,6 +52,8 @@ import retrofit2.Response;
 public class ChooseDiscussions extends AppCompatActivity {
 
     private long selectedDiscussionId;
+    private String token;
+    private long userId;
 
     private TextView discussionText;
 
@@ -55,6 +64,9 @@ public class ChooseDiscussions extends AppCompatActivity {
     private RecyclerView mMessageContainer;
 
     private ApiService service = ApiHandler.getmInstance().getService();
+
+    EditText etText;
+    Button btn_createDisc;
 
     long id;
 
@@ -68,11 +80,28 @@ public class ChooseDiscussions extends AppCompatActivity {
             selectedDiscussionId = args.getLong("discussionId");
         }
 
+        sharedPreferences = getSharedPreferences(Constants.storageName, MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
+        userId = sharedPreferences.getLong("userId", 0);
+        Log.d("Token", token);
+
 
         discussionText = findViewById(R.id.discussion_text);
         getSelectedDiscussion();
 
         mMessageContainer = findViewById(R.id.rv_messages);
+        etText = findViewById(R.id.etMessage);
+        btn_createDisc = findViewById(R.id.btn_createDisc);
+
+        getMessages();
+
+        btn_createDisc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMessage();
+            }
+        });
+
 
         ImageButton backButton = findViewById(R.id.btn_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +113,6 @@ public class ChooseDiscussions extends AppCompatActivity {
 
         LinearLayout lv = findViewById(R.id.lv_message);
         lv.bringToFront();
-        getMessages();
     }
 
     private void getSelectedDiscussion() {
@@ -127,10 +155,9 @@ public class ChooseDiscussions extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<GetMessageByDiscussionResponseBody> call, Response<GetMessageByDiscussionResponseBody> response) {
                         if(response.isSuccessful()){
-                            mMessages =  response.body().getMessages();
+                            mMessages = response.body().getMessages();
                             messageAdapter = new MessageAdapter(mMessages, ChooseDiscussions.this);
 
-                            SnapHelper snapHelper = new PagerSnapHelper();
                             LinearLayoutManager manager = new LinearLayoutManager(ChooseDiscussions.this, LinearLayoutManager.VERTICAL, false);
                             mMessageContainer.setLayoutManager(manager);
                             mMessageContainer.setAdapter(messageAdapter);
@@ -156,5 +183,37 @@ public class ChooseDiscussions extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void setMessage(){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                service.createMessage(createMessage()).enqueue(new Callback<CreateMessageResponseBody>() {
+                    @Override
+                    public void onResponse(Call<CreateMessageResponseBody> call, Response<CreateMessageResponseBody> response) {
+                        if(response.isSuccessful()){
+                            MessageResponseBody message = response.body().getMessage();
+                            mMessages.add(message);
+                            messageAdapter.notifyDataSetChanged();
+                            etText.clearFocus();
+                            etText.setText("");
+                        }
+                        else{
+                            Toast.makeText(ChooseDiscussions.this, "Невозможно отправить сообщение", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CreateMessageResponseBody> call, Throwable t) {
+                        Toast.makeText(ChooseDiscussions.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    public CreateMessageRequestBody createMessage(){
+        return new CreateMessageRequestBody(token, etText.getText().toString(), selectedDiscussionId, userId);
     }
 }

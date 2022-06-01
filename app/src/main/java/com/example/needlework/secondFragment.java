@@ -1,6 +1,7 @@
 package com.example.needlework;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,7 +32,9 @@ import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody
 import com.example.needlework.NetWork.Models.knittingPatterns.GetAllKnittingPatterns;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.Patterns.ChoosePattern;
+import com.example.needlework.common.Constants;
 
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,6 +62,8 @@ public class secondFragment extends Fragment {
     Button btn_createDisc, btnSearch;
 
     EditText etSearch;
+
+    String token;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
@@ -88,6 +93,7 @@ public class secondFragment extends Fragment {
 
         btn_createDisc = view.findViewById(R.id.btn_createDisc);
         btnSearch = view.findViewById(R.id.btnSearch);
+        token = getContext().getSharedPreferences(Constants.storageName, Context.MODE_PRIVATE).getString("token", "");
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +177,7 @@ public class secondFragment extends Fragment {
                                 intent.putExtra("discussionId", mAllDisc.get(position).getId());
                                 startActivity(intent);
                             }
-                        });
+                        }, token);
 
                         SnapHelper snapHelper = new PagerSnapHelper();
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -214,7 +220,7 @@ public class secondFragment extends Fragment {
                                 intent.putExtra("discussionId", mPopularDiscussions.get(position).getId());
                                 startActivity(intent);
                             }
-                        });
+                        }, token);
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerViewPopularDisc.setLayoutManager(manager);
@@ -256,7 +262,7 @@ public class secondFragment extends Fragment {
                                 intent.putExtra("discussionId", mNewDiscussions.get(position).getId());
                                 startActivity(intent);
                             }
-                        });
+                        }, token);
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerViewNewDisc.setLayoutManager(manager);
