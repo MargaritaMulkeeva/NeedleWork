@@ -48,14 +48,15 @@
                 style="@style/darkRegularText"
                 android:textColorHint="@color/MainText"
                 android:textSize="10dp"
+                android:layout_weight="1"
                 android:layout_marginRight="16dp"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
-                android:background="@drawable/round_btn_search"
-                android:text="Поиск"
+                android:background="#00FFFFFF"
+                android:src="@drawable/ic_baseline_search_24"
                 style="@style/darkRegularText"
                 android:textSize="10dp"/>
         </LinearLayout>

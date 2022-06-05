@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/round_white_panel"
-    android:layout_marginRight="8dp">
+    android:layout_marginRight="8dp"
+    android:elevation="1dp">
 
     <TextView
         android:id="@+id/tvCategory"

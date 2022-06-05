@@ -117,32 +117,6 @@
                 android:theme="@style/MyRatingBar"
                 android:numStars="10"/>
         </LinearLayout>
-<!--        <RelativeLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv"-->
-<!--                style="@style/darkRegularText"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginBottom="36dp"-->
-<!--                android:text="Понравилось обсуждение? Оцените его"-->
-<!--                android:textSize="15dp" />-->
-
-<!--            <RatingBar-->
-<!--                android:id="@+id/rating"-->
-<!--                style="?android:attr/ratingBarStyleIndicator"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_marginTop="334dp"-->
-<!--                android:layout_marginBottom="0dp"-->
-<!--                android:numStars="10"-->
-<!--                android:theme="@style/MyRatingBar" />-->
-<!--        </RelativeLayout>-->
     </LinearLayout>
 
     <LinearLayout
@@ -174,6 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_gravity="right"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/round_secondary_button"
             android:text="Отправить"
             android:textSize="11dp" />

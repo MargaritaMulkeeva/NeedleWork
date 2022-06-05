@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.needlework.Adapters.CategoriesAdapter;
 import com.example.needlework.Adapters.DiscussionAdapter;
@@ -60,7 +61,8 @@ public class secondFragment extends Fragment {
     private List<DiscussionsResponseBody> mAllDisc;
     private RecyclerView recyclerViewAllDisc;
 
-    Button btn_createDisc, btnSearch;
+    Button btn_createDisc;
+    ImageButton btnSearch;
 
     EditText etSearch;
 

@@ -159,7 +159,8 @@
                     android:layout_gravity="right"
                     android:background="@drawable/round_button"
                     android:text="Изменить"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="4dp"
                     style="@style/darkRegularText"/>
             </LinearLayout>
 
@@ -168,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/line_3"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="12dp"
                 android:scaleType="centerCrop"/>
 
             <LinearLayout
@@ -243,7 +244,8 @@
                     android:layout_gravity="right"
                     android:background="@drawable/round_button"
                     android:text="Изменить"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="12dp"
                     style="@style/darkRegularText"/>
             </LinearLayout>
 
@@ -251,7 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/line_3"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"/>
 
@@ -301,7 +303,8 @@
                     android:layout_gravity="right"
                     android:background="@drawable/round_button"
                     android:text="Изменить"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="4dp"
                     style="@style/darkRegularText"/>
             </LinearLayout>
 
@@ -309,7 +312,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/line_3"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"/>
 
