@@ -34,8 +34,7 @@
             android:textSize="10dp"
             android:text="Никнейм"
             android:layout_weight="0.1"
-            android:layout_marginLeft="8dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_marginLeft="8dp"/>
 
         <TextView
             android:id="@+id/tv_date"
@@ -43,8 +42,7 @@
             android:layout_height="wrap_content"
             style="@style/darkRegularText"
             android:textSize="10dp"
-            android:text="10.01.2002"
-            android:layout_gravity="center_vertical"/>
+            android:text="10.01.2002"/>
     </LinearLayout>
 
     <LinearLayout

@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +31,20 @@ import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
+import com.example.needlework.NetWork.Models.discussions.UpdateRatingForDiscussionRequestBody;
 import com.example.needlework.NetWork.Models.knittingPatterns.CategoriesOfPatternResponseBody;
+import com.example.needlework.NetWork.Models.knittingPatterns.UpdateRatingForPatternRequestBody;
 import com.example.needlework.NetWork.Models.messages.CreateMessageRequestBody;
 import com.example.needlework.NetWork.Models.messages.CreateMessageResponseBody;
 import com.example.needlework.NetWork.Models.messages.GetMessageByDiscussionResponseBody;
 import com.example.needlework.NetWork.Models.messages.MessageResponseBody;
 import com.example.needlework.NetWork.Models.user.RegistrationRequestBody;
+import com.example.needlework.NetWork.Models.userRatingForDiscussions.CreateUserRatingForDiscussionRequestBody;
+import com.example.needlework.NetWork.Models.userRatingForDiscussions.GetAverageUserRatingForDiscussionResponseBody;
+import com.example.needlework.NetWork.Models.userRatingForDiscussions.UserRatingsForDiscussionsResponseBody;
+import com.example.needlework.NetWork.Models.userRatingForPatterns.CreateUserRatingForPatternRequestBody;
+import com.example.needlework.NetWork.Models.userRatingForPatterns.GetAverageUserRatingForPatternResponseBody;
+import com.example.needlework.NetWork.Models.userRatingForPatterns.UserRatingForPatternsResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.Patterns.ChoosePattern;
 import com.example.needlework.R;
@@ -45,6 +54,8 @@ import com.example.needlework.secondFragment;
 
 import java.util.List;
 
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,12 +67,15 @@ public class ChooseDiscussions extends AppCompatActivity {
     private long userId;
 
     private TextView discussionText;
+    private TextView ratingText;
 
     private SharedPreferences sharedPreferences;
 
     private MessageAdapter messageAdapter;
     private List<MessageResponseBody> mMessages;
     private RecyclerView mMessageContainer;
+
+    MaterialRatingBar ratingbar;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
@@ -92,8 +106,16 @@ public class ChooseDiscussions extends AppCompatActivity {
         mMessageContainer = findViewById(R.id.rv_messages);
         etText = findViewById(R.id.etMessage);
         btn_createDisc = findViewById(R.id.btn_createDisc);
+        ratingText = findViewById(R.id.rating_text);
+        ratingbar = findViewById(R.id.rating);
 
         getMessages();
+        ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                setRating(rating);
+            }
+        });
 
         btn_createDisc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,5 +237,94 @@ public class ChooseDiscussions extends AppCompatActivity {
 
     public CreateMessageRequestBody createMessage(){
         return new CreateMessageRequestBody(token, etText.getText().toString(), selectedDiscussionId, userId);
+    }
+
+    private void setRating(float rating) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                // устанавливаю рейтинг схемы для текущего пользователя
+                service.createRatingForDiscussion(new CreateUserRatingForDiscussionRequestBody(token, rating, userId, selectedDiscussionId)).enqueue(new Callback<UserRatingsForDiscussionsResponseBody>() {
+                    @Override
+                    public void onResponse(Call<UserRatingsForDiscussionsResponseBody> call, Response<UserRatingsForDiscussionsResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            String message = "Рейтинг установлен: " + String.valueOf(response.body().getRating());
+                            Toast.makeText(ChooseDiscussions.this, message, Toast.LENGTH_SHORT).show();
+
+                            // получаю среднее арифметическое значение рейтинга для текущего пользователя
+                            service.getAverageRatingForDiscussion(selectedDiscussionId).enqueue(new Callback<GetAverageUserRatingForDiscussionResponseBody>() {
+                                @Override
+                                public void onResponse(Call<GetAverageUserRatingForDiscussionResponseBody> call, Response<GetAverageUserRatingForDiscussionResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        ratingText.setText(String.valueOf(response.body().getAverageRating()));
+                                        // устанавливаю среднее арифметическое значение рейтинга для текущей схемы
+                                        service.updateDiscussionRating(new UpdateRatingForDiscussionRequestBody(selectedDiscussionId, response.body().getAverageRating())).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if (response.isSuccessful()) {
+                                                    new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Успешно").setMessage("Рейтинг схемы обновлён").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        }
+                                                    }).show();
+                                                } else {
+                                                    String message = ErrorUtils.error(response).getError();
+                                                    new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        }
+                                                    }).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                }).show();
+                                            }
+                                        });
+                                    } else {
+                                        String message = ErrorUtils.error(response).getError();
+                                        new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        }).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<GetAverageUserRatingForDiscussionResponseBody> call, Throwable t) {
+                                    new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    }).show();
+                                }
+                            });
+                        } else {
+                            String message = ErrorUtils.error(response).getError();
+                            new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserRatingsForDiscussionsResponseBody> call, Throwable t) {
+                        new AlertDialog.Builder(ChooseDiscussions.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+                    }
+                });
+            }
+        });
     }
 }

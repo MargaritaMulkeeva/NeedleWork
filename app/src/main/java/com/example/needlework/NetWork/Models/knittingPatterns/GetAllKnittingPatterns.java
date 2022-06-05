@@ -21,6 +21,31 @@ public class GetAllKnittingPatterns {
     @SerializedName("imagePattern")
     private String imagePattern;
 
+
+    @SerializedName("imageOfProduct")
+    private String imageOfProduct;
+
+    @SerializedName("workProcessDescription")
+    private List<KnittingPatternContent> workProcessDescription;
+
+    @SerializedName("createdAt")
+    private String createdAt;
+
+    @SerializedName("categoryOfPatternId")
+    private long categoryOfPatternId;
+
+    public GetAllKnittingPatterns(long id, String name, String description, double rating, String imagePattern, String imageOfProduct, List<KnittingPatternContent> workProcessDescription, String createdAt, long categoryOfPatternId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.rating = rating;
+        this.imagePattern = imagePattern;
+        this.imageOfProduct = imageOfProduct;
+        this.workProcessDescription = workProcessDescription;
+        this.createdAt = createdAt;
+        this.categoryOfPatternId = categoryOfPatternId;
+    }
+
     public long getId() {
         return id;
     }
@@ -85,23 +110,11 @@ public class GetAllKnittingPatterns {
         this.createdAt = createdAt;
     }
 
-    @SerializedName("imageOfProduct")
-    private String imageOfProduct;
+    public long getCategoryOfPatternId() {
+        return categoryOfPatternId;
+    }
 
-    @SerializedName("workProcessDescription")
-    private List<KnittingPatternContent> workProcessDescription;
-
-    @SerializedName("createdAt")
-    private String createdAt;
-
-    public GetAllKnittingPatterns(long id, String name, String description, double rating, String imagePattern, String imageOfProduct, List<KnittingPatternContent> workProcessDescription, String createdAt) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.rating = rating;
-        this.imagePattern = imagePattern;
-        this.imageOfProduct = imageOfProduct;
-        this.workProcessDescription = workProcessDescription;
-        this.createdAt = createdAt;
+    public void setCategoryOfPatternId(long categoryOfPatternId) {
+        this.categoryOfPatternId = categoryOfPatternId;
     }
 }

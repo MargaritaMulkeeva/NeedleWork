@@ -108,6 +108,13 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:layout_marginBottom="30dp">
+
         <Button
             android:id="@+id/btn_signUp"
             style="@style/darkRegularText"
@@ -117,5 +124,6 @@
             android:background="@drawable/round_secondary_button"
             android:text="Зарегистрироваться"
             android:textSize="15dp"
-            android:layout_marginTop="190dp"/>
+            android:layout_marginBottom="8dp"/>
+    </LinearLayout>
 </LinearLayout>

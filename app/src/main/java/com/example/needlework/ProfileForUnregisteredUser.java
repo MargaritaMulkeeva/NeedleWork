@@ -31,7 +31,7 @@ public class ProfileForUnregisteredUser extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileForUnregisteredUser.this, SignUp.class);
+                Intent intent = new Intent(ProfileForUnregisteredUser.this, Authorization.class);
                 startActivity(intent);
             }
         });

@@ -17,7 +17,7 @@
         android:elevation="10dp"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -26,21 +26,35 @@
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#0000"
-                android:src="@drawable/arrow" />
+                android:src="@drawable/arrow"
+                android:background="#0000"/>
 
             <TextView
-                android:id="@+id/tv_name"
-                style="@style/topText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
+                style="@style/topText"
+                android:textSize="20dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="Выбранное обсуждение"
-                android:textSize="20dp" />
-        </RelativeLayout>
+                android:text="Выбранное обсуждение"/>
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@drawable/star"
+                android:layout_marginRight="6dp"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/secondRegularText"
+                android:textSize="16dp"
+                android:text="5,6"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -77,9 +91,58 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_messages"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:elevation="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/darkRegularText"
+                android:textSize="15dp"
+                android:layout_marginTop="16dp"
+                android:text="Понравилось обсуждение? Оцените его"/>
+
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:theme="@style/MyRatingBar"
+                android:numStars="10"/>
+        </LinearLayout>
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv"-->
+<!--                style="@style/darkRegularText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginBottom="36dp"-->
+<!--                android:text="Понравилось обсуждение? Оцените его"-->
+<!--                android:textSize="15dp" />-->
+
+<!--            <RatingBar-->
+<!--                android:id="@+id/rating"-->
+<!--                style="?android:attr/ratingBarStyleIndicator"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_marginTop="334dp"-->
+<!--                android:layout_marginBottom="0dp"-->
+<!--                android:numStars="10"-->
+<!--                android:theme="@style/MyRatingBar" />-->
+<!--        </RelativeLayout>-->
     </LinearLayout>
 
     <LinearLayout

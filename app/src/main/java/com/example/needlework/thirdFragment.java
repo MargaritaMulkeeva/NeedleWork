@@ -1,13 +1,19 @@
 package com.example.needlework;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -23,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.needlework.NetWork.ApiHandler;
 import com.example.needlework.NetWork.ErrorUtils;
+import com.example.needlework.NetWork.Models.user.ChangeAvatarRequestBody;
 import com.example.needlework.NetWork.Models.user.ChangeLoginRequestBody;
 import com.example.needlework.NetWork.Models.user.ChangeNickNameRequestBody;
 import com.example.needlework.NetWork.Models.user.ChangePasswordRequestBody;
@@ -35,6 +42,11 @@ import com.example.needlework.Profile.UserBookMark;
 import com.example.needlework.Profile.UserDiscussions;
 import com.example.needlework.common.Constants;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URI;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -57,6 +69,9 @@ public class thirdFragment extends Fragment {
     private EditText loginEdit;
 
     ImageButton btnBookMark, btnDisc;
+    Button editAvatarButton;
+
+    private final int Pick_image = 1;
 
     public thirdFragment() {
     }
@@ -101,8 +116,6 @@ public class thirdFragment extends Fragment {
             }
         });
 
-
-
         storage = getContext().getSharedPreferences(Constants.storageName, getContext().MODE_PRIVATE);
 
         getUserInfo();
@@ -115,7 +128,7 @@ public class thirdFragment extends Fragment {
             }
         });
 
-        Button editAvatarButton = view.findViewById(R.id.btn_changePhoto);
+        editAvatarButton = view.findViewById(R.id.btn_changePhoto);
         editAvatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +171,6 @@ public class thirdFragment extends Fragment {
                     public void onResponse(Call<GetUserResponseBody> call, Response<GetUserResponseBody> response) {
                         if (response.isSuccessful()) {
                             currentUserData = response.body().getUser();
-
                             Picasso.with(getContext())
                                     .load(currentUserData.getAvatar())
                                     .placeholder(R.drawable.avatar_placeholder)
@@ -190,7 +202,53 @@ public class thirdFragment extends Fragment {
     }
 
     private void changeAvatar() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            final Uri imageUri = data.getData();
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    service.changeAvatar(new ChangeAvatarRequestBody(currentUserData.getId(), imageUri.toString())).enqueue(new Callback<UserUpdateResponseBody>() {
+                        @Override
+                        public void onResponse(Call<UserUpdateResponseBody> call, Response<UserUpdateResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                avatar.setImageURI(imageUri);
+                                new AlertDialog.Builder(getContext()).setTitle("Успешно").setMessage(response.body().getMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                }).show();
+                            } else {
+                                String message = ErrorUtils.error(response).getError();
+                                new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                }).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserUpdateResponseBody> call, Throwable t) {
+                            new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).show();
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void changeNickname() {
@@ -322,7 +380,7 @@ public class thirdFragment extends Fragment {
                             SharedPreferences.Editor editor = storage.edit();
                             editor.remove("token").apply();
 
-                            Intent intent = new Intent(getContext(), SignIn.class);
+                            Intent intent = new Intent(getContext(), Authorization.class);
 
                             startActivity(intent);
                         } else {

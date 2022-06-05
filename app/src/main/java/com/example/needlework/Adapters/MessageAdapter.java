@@ -34,7 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         this.context = context;
     }
 
-    public class MessageHolder extends RecyclerView.ViewHolder{
+    public class MessageHolder extends RecyclerView.ViewHolder {
 
         public TextView nickName;
         public TextView date;
@@ -67,15 +67,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         final MessageResponseBody messages = mMessage.get(position);
 
-        holder.nickName.setText(String.valueOf(messages.getUserId()));
         holder.date.setText(messages.getCreatedAt().substring(0, 10));
         holder.message.setText(messages.getText());
-        String token = context.getSharedPreferences(Constants.storageName, Context.MODE_PRIVATE).getString("token", "");
 
-        service.getUser(token).enqueue(new Callback<GetUserResponseBody>() {
+        service.getUserById(messages.getUserId()).enqueue(new Callback<GetUserResponseBody>() {
             @Override
             public void onResponse(Call<GetUserResponseBody> call, Response<GetUserResponseBody> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
+                    holder.nickName.setText(response.body().getUser().getNickName());
                     Picasso.with(context)
                             .load(response.body().getUser().getAvatar())
                             .placeholder(R.drawable.avatar_placeholder)

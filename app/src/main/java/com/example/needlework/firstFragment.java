@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.needlework.Adapters.AllPatternAdapter;
@@ -63,13 +65,15 @@ public class firstFragment extends Fragment {
 
     EditText etSearch;
 
-    Button btn_go, btnSearch;
+    Button btn_go;
+    ImageButton btnSearch;
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
 
     public firstFragment() {
     }
+
     public static firstFragment newInstance(String param1, String param2) {
         return new firstFragment();
     }
@@ -88,7 +92,7 @@ public class firstFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etSearch = view.findViewById(R.id.etSearch);
-                if(etSearch.getText().toString().equals("")){
+                if (etSearch.getText().toString().equals("")) {
                     getAllPatterns();
                 } else {
                     searchItem(etSearch.getText().toString());
@@ -112,29 +116,44 @@ public class firstFragment extends Fragment {
         return view;
     }
 
-    public void searchItem(String textToSearch){
-        for (Iterator<GetAllKnittingPatterns> it = mAllPattern.iterator(); it.hasNext();) {
+    public void searchItem(String textToSearch) {
+        for (Iterator<GetAllKnittingPatterns> it = mAllPattern.iterator(); it.hasNext(); ) {
             if (!it.next().getName().toLowerCase().contains(textToSearch))
                 it.remove();
         }
         allPatternAdapter.notifyDataSetChanged();
     }
 
-    private void getCategories(){
-        AsyncTask.execute(()->{
+    private void getCategories() {
+        AsyncTask.execute(() -> {
             service.getCategoriesOfPattern().enqueue(new Callback<List<CategoriesOfPatternResponseBody>>() {
                 @Override
                 public void onResponse(Call<List<CategoriesOfPatternResponseBody>> call, Response<List<CategoriesOfPatternResponseBody>> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         mCategories = response.body();
-                        categoriesAdapter = new CategoriesAdapter(mCategories, getContext());
+                        categoriesAdapter = new CategoriesAdapter(mCategories, getContext(), new OnAdapterItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                getAllPatternsInMainThread();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CategoriesOfPatternResponseBody category = mCategories.get(position);
+                                        for (Iterator<GetAllKnittingPatterns> it = mAllPattern.iterator(); it.hasNext(); ) {
+                                            if (it.next().getCategoryOfPatternId() != category.getId())
+                                                it.remove();
+                                        }
+                                        allPatternAdapter.notifyDataSetChanged();
+                                    }
+                                }, 1000);
+                            }
+                        });
 
                         SnapHelper snapHelper = new PagerSnapHelper();
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                         mCategoriesContainer.setLayoutManager(manager);
                         mCategoriesContainer.setAdapter(categoriesAdapter);
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -156,12 +175,12 @@ public class firstFragment extends Fragment {
         });
     }
 
-    private void getPatterns(){
-        AsyncTask.execute(()->{
+    private void getPatterns() {
+        AsyncTask.execute(() -> {
             service.getPopularKnittingPatterns().enqueue(new Callback<List<KnittingPatternResponseBody>>() {
                 @Override
                 public void onResponse(Call<List<KnittingPatternResponseBody>> call, Response<List<KnittingPatternResponseBody>> response) {
-                    if(response.isSuccessful()) {
+                    if (response.isSuccessful()) {
                         mPattern = response.body();
                         patternAdapter = new PatternAdapter(mPattern, getContext(), new OnAdapterItemClickListener() {
                             @Override
@@ -176,8 +195,7 @@ public class firstFragment extends Fragment {
                         mPatternContainer.setLayoutManager(manager);
                         mPatternContainer.setAdapter(patternAdapter);
 
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -199,12 +217,12 @@ public class firstFragment extends Fragment {
         });
     }
 
-    private void getAllPatterns(){
-        AsyncTask.execute(()->{
+    private void getAllPatterns() {
+        AsyncTask.execute(() -> {
             service.getAllPatterns().enqueue(new Callback<List<GetAllKnittingPatterns>>() {
                 @Override
                 public void onResponse(Call<List<GetAllKnittingPatterns>> call, Response<List<GetAllKnittingPatterns>> response) {
-                    if(response.isSuccessful()) {
+                    if (response.isSuccessful()) {
                         mAllPattern = response.body();
                         allPatternAdapter = new AllPatternAdapter(mAllPattern, getContext(), new OnAdapterItemClickListener() {
                             @Override
@@ -218,8 +236,7 @@ public class firstFragment extends Fragment {
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         mAllPatternContainer.setLayoutManager(manager);
                         mAllPatternContainer.setAdapter(allPatternAdapter);
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -238,6 +255,45 @@ public class firstFragment extends Fragment {
                     }).show();
                 }
             });
+        });
+    }
+
+    private void getAllPatternsInMainThread() {
+        service.getAllPatterns().enqueue(new Callback<List<GetAllKnittingPatterns>>() {
+            @Override
+            public void onResponse(Call<List<GetAllKnittingPatterns>> call, Response<List<GetAllKnittingPatterns>> response) {
+                if (response.isSuccessful()) {
+                    mAllPattern = response.body();
+                    allPatternAdapter = new AllPatternAdapter(mAllPattern, getContext(), new OnAdapterItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Intent intent = new Intent(getContext(), ChoosePattern.class);
+                            intent.putExtra("patternId", mAllPattern.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                    LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    mAllPatternContainer.setLayoutManager(manager);
+                    mAllPatternContainer.setAdapter(allPatternAdapter);
+                } else {
+                    String message = ErrorUtils.error(response).getError();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetAllKnittingPatterns>> call, Throwable t) {
+                new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+            }
         });
     }
 }

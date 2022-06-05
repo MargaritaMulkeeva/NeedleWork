@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class GetAverageUserRatingForPatternResponseBody {
     @SerializedName("knittingPatternId")
     private long knittingPatternId;
-    @SerializedName("averageRating")
+    @SerializedName("averageValue")
     private float averageRating;
 
     public GetAverageUserRatingForPatternResponseBody(long knittingPatternId, float averageRating) {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +100,7 @@ public class secondFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etSearch = view.findViewById(R.id.etSearch);
-                if(etSearch.getText().toString().equals("")){
+                if (etSearch.getText().toString().equals("")) {
                     getAllDisc();
                 } else {
                     searchItem(etSearch.getText().toString());
@@ -120,29 +121,44 @@ public class secondFragment extends Fragment {
         return view;
     }
 
-    public void searchItem(String textToSearch){
-        for (Iterator<DiscussionsResponseBody> it = mAllDisc.iterator(); it.hasNext();) {
+    public void searchItem(String textToSearch) {
+        for (Iterator<DiscussionsResponseBody> it = mAllDisc.iterator(); it.hasNext(); ) {
             if (!it.next().getTheme().toLowerCase().contains(textToSearch))
                 it.remove();
         }
         allDiscussionsAdapter.notifyDataSetChanged();
     }
 
-    private void getCategories(){
-        AsyncTask.execute(()->{
+    private void getCategories() {
+        AsyncTask.execute(() -> {
             service.getCategoriesOfDiscussion().enqueue(new Callback<List<CategoriesOfPatternResponseBody>>() {
                 @Override
                 public void onResponse(Call<List<CategoriesOfPatternResponseBody>> call, Response<List<CategoriesOfPatternResponseBody>> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         mCategories = response.body();
-                        categoriesAdapter = new CategoriesAdapter(mCategories, getContext());
+                        categoriesAdapter = new CategoriesAdapter(mCategories, getContext(), new OnAdapterItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                getAllDiscInMainThread();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CategoriesOfPatternResponseBody category = mCategories.get(position);
+                                        for (Iterator<DiscussionsResponseBody> it = mAllDisc.iterator(); it.hasNext(); ) {
+                                            if (it.next().getCategoryOfDiscussionsId() != category.getId())
+                                                it.remove();
+                                        }
+                                        allDiscussionsAdapter.notifyDataSetChanged();
+                                    }
+                                }, 1000);
+                            }
+                        });
 
                         SnapHelper snapHelper = new PagerSnapHelper();
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                         recyclerView.setLayoutManager(manager);
                         recyclerView.setAdapter(categoriesAdapter);
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -151,6 +167,7 @@ public class secondFragment extends Fragment {
                         }).show();
                     }
                 }
+
                 @Override
                 public void onFailure(Call<List<CategoriesOfPatternResponseBody>> call, Throwable t) {
                     new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -163,12 +180,12 @@ public class secondFragment extends Fragment {
         });
     }
 
-    private void getAllDisc(){
-        AsyncTask.execute(()->{
+    private void getAllDisc() {
+        AsyncTask.execute(() -> {
             service.getAllDisc().enqueue(new Callback<List<DiscussionsResponseBody>>() {
                 @Override
                 public void onResponse(Call<List<DiscussionsResponseBody>> call, Response<List<DiscussionsResponseBody>> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         mAllDisc = response.body();
                         allDiscussionsAdapter = new DiscussionAdapter(mAllDisc, getContext(), new OnAdapterItemClickListener() {
                             @Override
@@ -177,14 +194,13 @@ public class secondFragment extends Fragment {
                                 intent.putExtra("discussionId", mAllDisc.get(position).getId());
                                 startActivity(intent);
                             }
-                        }, token);
+                        });
 
                         SnapHelper snapHelper = new PagerSnapHelper();
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerViewAllDisc.setLayoutManager(manager);
                         recyclerViewAllDisc.setAdapter(allDiscussionsAdapter);
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -206,12 +222,12 @@ public class secondFragment extends Fragment {
         });
     }
 
-    private void getPopularDiscussions(){
-        AsyncTask.execute(()->{
+    private void getPopularDiscussions() {
+        AsyncTask.execute(() -> {
             service.getDiscussionsByCriterion("popular").enqueue(new Callback<GetDiscussionByCritetionResponseBody>() {
                 @Override
                 public void onResponse(Call<GetDiscussionByCritetionResponseBody> call, Response<GetDiscussionByCritetionResponseBody> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         mPopularDiscussions = response.body().getDiscussions();
                         popularDiscussionAdapter = new DiscussionAdapter(mPopularDiscussions, getContext(), new OnAdapterItemClickListener() {
                             @Override
@@ -220,13 +236,12 @@ public class secondFragment extends Fragment {
                                 intent.putExtra("discussionId", mPopularDiscussions.get(position).getId());
                                 startActivity(intent);
                             }
-                        }, token);
+                        });
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerViewPopularDisc.setLayoutManager(manager);
                         recyclerViewPopularDisc.setAdapter(popularDiscussionAdapter);
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -249,11 +264,11 @@ public class secondFragment extends Fragment {
     }
 
     private void getNewDiscussions() {
-        AsyncTask.execute(()->{
+        AsyncTask.execute(() -> {
             service.getDiscussionsByCriterion("recent").enqueue(new Callback<GetDiscussionByCritetionResponseBody>() {
                 @Override
                 public void onResponse(Call<GetDiscussionByCritetionResponseBody> call, Response<GetDiscussionByCritetionResponseBody> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         mNewDiscussions = response.body().getDiscussions();
                         newDiscussionAdapter = new DiscussionAdapter(mNewDiscussions, getContext(), new OnAdapterItemClickListener() {
                             @Override
@@ -262,13 +277,12 @@ public class secondFragment extends Fragment {
                                 intent.putExtra("discussionId", mNewDiscussions.get(position).getId());
                                 startActivity(intent);
                             }
-                        }, token);
+                        });
 
                         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerViewNewDisc.setLayoutManager(manager);
                         recyclerViewNewDisc.setAdapter(newDiscussionAdapter);
-                    }
-                    else {
+                    } else {
                         String message = ErrorUtils.error(response).getError();
                         new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -287,6 +301,46 @@ public class secondFragment extends Fragment {
                     }).show();
                 }
             });
+        });
+    }
+
+    private void getAllDiscInMainThread() {
+        service.getAllDisc().enqueue(new Callback<List<DiscussionsResponseBody>>() {
+            @Override
+            public void onResponse(Call<List<DiscussionsResponseBody>> call, Response<List<DiscussionsResponseBody>> response) {
+                if (response.isSuccessful()) {
+                    mAllDisc = response.body();
+                    allDiscussionsAdapter = new DiscussionAdapter(mAllDisc, getContext(), new OnAdapterItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Intent intent = new Intent(getContext(), ChooseDiscussions.class);
+                            intent.putExtra("discussionId", mAllDisc.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                    SnapHelper snapHelper = new PagerSnapHelper();
+                    LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    recyclerViewAllDisc.setLayoutManager(manager);
+                    recyclerViewAllDisc.setAdapter(allDiscussionsAdapter);
+                } else {
+                    String message = ErrorUtils.error(response).getError();
+                    new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DiscussionsResponseBody>> call, Throwable t) {
+                new AlertDialog.Builder(getContext()).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+            }
         });
     }
 }
