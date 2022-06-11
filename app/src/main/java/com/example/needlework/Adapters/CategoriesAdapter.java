@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         private OnAdapterItemClickListener listener;
 
-        public TextView name;
+        public TextView radioButton;
 
         public CategoriesHolder(@NonNull View itemView, OnAdapterItemClickListener listener) {
             super(itemView);
@@ -29,10 +30,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             this.listener = listener;
             itemView.setOnClickListener(this);
 
-            name = itemView.findViewById(R.id.tvCategory);
+            radioButton = itemView.findViewById(R.id.tvCategory);
         }
         public void setName(String title) {
-            name.setText(title);
+            radioButton.setText(title);
         }
 
         @Override

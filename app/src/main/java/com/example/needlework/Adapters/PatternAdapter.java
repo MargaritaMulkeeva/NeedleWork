@@ -69,7 +69,7 @@ public class PatternAdapter extends RecyclerView.Adapter<PatternAdapter.PatternH
 
         holder.text_name.setText(pattern.getName());
         holder.text_descriprion.setText(pattern.getDescription());
-        holder.tvRating.setText(String.valueOf(pattern.getRating()));
+        holder.tvRating.setText(String.format("%.1f", pattern.getRating()));
         Picasso.with(context)
                 .load(pattern.getImageOfProduct()).into(holder.img_photo);
     }

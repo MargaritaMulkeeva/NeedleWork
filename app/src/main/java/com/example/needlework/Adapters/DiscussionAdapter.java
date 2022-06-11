@@ -84,7 +84,7 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
         final DiscussionsResponseBody discussions = mDiscussions.get(position);
 
         holder.tvTheme.setText(discussions.getTheme());
-        holder.tvRating.setText(String.valueOf(discussions.getRating()));
+        holder.tvRating.setText(String.format("%.1f", discussions.getRating()));
         holder.tv_date.setText(discussions.getCreatedAt().substring(0, 10));
 
         service.getUserById(discussions.getUserId()).enqueue(new Callback<GetUserResponseBody>() {

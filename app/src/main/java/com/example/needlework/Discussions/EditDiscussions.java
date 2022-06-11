@@ -44,7 +44,7 @@ public class EditDiscussions extends AppCompatActivity {
     private List<DiscussionsResponseBody> mPopularDiscussions;
     private RecyclerView recyclerViewPopularDisc;
 
-    EditText et_category, et_message, etTheme;
+    EditText et_message, etTheme;
     Button publishButton;
     ImageButton img_back;
 
@@ -67,7 +67,6 @@ public class EditDiscussions extends AppCompatActivity {
 
         img_back = findViewById(R.id.btn_back);
         recyclerViewPopularDisc = findViewById(R.id.rv_popular);
-        et_category = findViewById(R.id.et_category);
         et_message = findViewById(R.id.et_message);
         etTheme = findViewById(R.id.et_theme);
 
@@ -140,6 +139,7 @@ public class EditDiscussions extends AppCompatActivity {
                             DiscussionsResponseBody discussion = response.body();
                             etTheme.setText(discussion.getTheme());
                             et_message.setText(discussion.getTextOfDiscussions());
+                            categoryOfDiscussionId = discussion.getCategoryOfDiscussionsId();
                         } else {
                             String message = ErrorUtils.error(response).getError();
                             new AlertDialog.Builder(EditDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -161,22 +161,6 @@ public class EditDiscussions extends AppCompatActivity {
                         }).show();
                     }
                 });
-
-//                service.getCategoryOfDiscussionById(categoryOfDiscussionId).enqueue(new Callback<CategoriesOfPatternResponseBody>() {
-//                    @Override
-//                    public void onResponse(Call<CategoriesOfPatternResponseBody> call, Response<CategoriesOfPatternResponseBody> response) {
-//                        if (response.isSuccessful()) {
-//                            et_category.setText(response.body().getName());
-//                        } else {
-//                            Toast.makeText(EditDiscussions.this, "Не удалось получить категорию", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<CategoriesOfPatternResponseBody> call, Throwable t) {
-//                        Toast.makeText(EditDiscussions.this, "Не удалось получить категорию", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
             }
         });
     }
@@ -185,31 +169,6 @@ public class EditDiscussions extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                service.createCategoryOfDiscussion(new CreateCategoryOfDiscussionRequestBody(et_category.getText().toString())).enqueue(new Callback<CategoryOfDiscussionResponseBody>() {
-                    @Override
-                    public void onResponse(Call<CategoryOfDiscussionResponseBody> call, Response<CategoryOfDiscussionResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            categoryOfDiscussionId = response.body().getId();
-                        } else {
-                            String message = ErrorUtils.error(response).getError();
-                            new AlertDialog.Builder(EditDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            }).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<CategoryOfDiscussionResponseBody> call, Throwable t) {
-                        new AlertDialog.Builder(EditDiscussions.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).show();
-                    }
-                });
-
                 service.updateDiscussion(new UpdateDiscussionRequestBody(etTheme.getText().toString(), et_message.getText().toString(), categoryOfDiscussionId, userId)).enqueue(new Callback<UpdateDiscussionResponseBody>() {
                     @Override
                     public void onResponse(Call<UpdateDiscussionResponseBody> call, Response<UpdateDiscussionResponseBody> response) {

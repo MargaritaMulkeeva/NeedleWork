@@ -25,7 +25,7 @@ public class AllPatternAdapter extends RecyclerView.Adapter<AllPatternAdapter.Al
         this.listener = listener;
     }
 
-    public class AllPatternHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class AllPatternHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView text_name;
         public TextView tvRating;
@@ -55,6 +55,7 @@ public class AllPatternAdapter extends RecyclerView.Adapter<AllPatternAdapter.Al
     private List<GetAllKnittingPatterns> mAllPatterns;
     private Context context;
     private OnAdapterItemClickListener listener;
+
     @NonNull
     @Override
     public AllPatternHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,7 +70,7 @@ public class AllPatternAdapter extends RecyclerView.Adapter<AllPatternAdapter.Al
 
         holder.text_name.setText(allPattern.getName());
         holder.text_descriprion.setText(allPattern.getDescription());
-        holder.tvRating.setText(String.valueOf(allPattern.getRating()));
+        holder.tvRating.setText(String.format("%.1f", allPattern.getRating()));
         Picasso.with(context)
                 .load(allPattern.getImageOfProduct()).into(holder.img_photo);
     }

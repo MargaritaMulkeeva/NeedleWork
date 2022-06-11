@@ -89,23 +89,11 @@
                         style="@style/italic"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
                         android:background="@drawable/round_orange_et"
                         android:hint="Введите тему категории"
                         android:inputType="textPersonName"
                         android:textColorHint="@color/MainText"
                         android:textSize="12dp" />
-
-                    <EditText
-                        android:id="@+id/et_category"
-                        android:background="@drawable/round_orange_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        style="@style/italic"
-                        android:inputType="textPersonName"
-                        android:hint="Введите категорию"
-                        android:textColorHint="@color/MainText"
-                        android:textSize="12dp"/>
 
                     <EditText
                         android:id="@+id/et_message"

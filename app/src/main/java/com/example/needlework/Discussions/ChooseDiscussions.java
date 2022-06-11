@@ -52,6 +52,7 @@ import com.example.needlework.SignUp;
 import com.example.needlework.common.Constants;
 import com.example.needlework.secondFragment;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -146,6 +147,7 @@ public class ChooseDiscussions extends AppCompatActivity {
                     public void onResponse(Call<DiscussionsResponseBody> call, Response<DiscussionsResponseBody> response) {
                         if (response.isSuccessful()) {
                             discussionText.setText(response.body().getTextOfDiscussions());
+                            ratingText.setText(String.format("%.1f", response.body().getRating()));
                         }
                         else {
                             String message = ErrorUtils.error(response).getError();

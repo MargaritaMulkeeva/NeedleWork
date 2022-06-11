@@ -135,7 +135,7 @@ public class ChoosePattern extends AppCompatActivity {
                     public void onResponse(Call<KnittingPatternResponseBody> call, Response<KnittingPatternResponseBody> response) {
                         if (response.isSuccessful()) {
                             nameText.setText(response.body().getName());
-                            ratingText.setText(String.valueOf(response.body().getRating()));
+                            ratingText.setText(String.format("%.1f", response.body().getRating()));
                             description.setText(response.body().getDescription());
 
                             Picasso.with(ChoosePattern.this)

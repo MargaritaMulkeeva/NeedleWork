@@ -14,14 +14,20 @@
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
 
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/icon_with_text"
+            android:layout_gravity="center"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Добро пожаловать!"
+            android:text="Добро пожаловать в помощник по вязанию!"
             style="@style/topText"
+            android:layout_marginTop="64dp"
             android:textSize="26dp"
-            android:layout_marginTop="128dp"
-            android:layout_gravity="center_vertical"/>
+            android:gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
