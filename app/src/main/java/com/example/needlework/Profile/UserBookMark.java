@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.needlework.Adapters.AllPatternAdapter;
 import com.example.needlework.Adapters.BookmarkAdapter;
@@ -42,6 +43,7 @@ public class UserBookMark extends AppCompatActivity {
     ImageView imgBack;
 
     SharedPreferences sharedPreferences;
+    TextView text;
 
     ApiService service = ApiHandler.getmInstance().getService();
     String token;
@@ -54,6 +56,7 @@ public class UserBookMark extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_book_mark);
+        text = findViewById(R.id.textf);
 
         imgBack = findViewById(R.id.btn_back);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +90,14 @@ public class UserBookMark extends AppCompatActivity {
                         LinearLayoutManager manager = new LinearLayoutManager(UserBookMark.this, LinearLayoutManager.VERTICAL, false);
                         rvBookMark.setLayoutManager(manager);
                         rvBookMark.setAdapter(bookmarkAdapter);
+                        if(bookmarkAdapter.getItemCount()!=0){
+                            rvBookMark.setVisibility(View.VISIBLE);
+                            text.setVisibility(View.GONE);
+                        }
+                        else {
+                            rvBookMark.setVisibility(View.GONE);
+                            text.setVisibility(View.VISIBLE);
+                        }
                     }
                     else {
                         String message = ErrorUtils.error(response).getError();

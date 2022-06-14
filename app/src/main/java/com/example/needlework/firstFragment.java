@@ -135,17 +135,19 @@ public class firstFragment extends Fragment {
                             @Override
                             public void onItemClick(int position) {
                                 getAllPatternsInMainThread();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        CategoriesOfPatternResponseBody category = mCategories.get(position);
-                                        for (Iterator<GetAllKnittingPatterns> it = mAllPattern.iterator(); it.hasNext(); ) {
-                                            if (it.next().getCategoryOfPatternId() != category.getId())
-                                                it.remove();
+                                if(!mCategories.get(position).getName().equals("Все схемы")){
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            CategoriesOfPatternResponseBody category = mCategories.get(position);
+                                            for (Iterator<GetAllKnittingPatterns> it = mAllPattern.iterator(); it.hasNext(); ) {
+                                                if (it.next().getCategoryOfPatternId() != category.getId())
+                                                    it.remove();
+                                            }
+                                            allPatternAdapter.notifyDataSetChanged();
                                         }
-                                        allPatternAdapter.notifyDataSetChanged();
-                                    }
-                                }, 1000);
+                                    }, 1000);
+                                }
                             }
                         });
 

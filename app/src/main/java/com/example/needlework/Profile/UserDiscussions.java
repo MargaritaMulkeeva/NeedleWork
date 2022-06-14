@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.Adapters.OnAdapterItemClickListener;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 public class UserDiscussions extends AppCompatActivity {
     ImageButton btn_back;
     SharedPreferences sharedPreferences;
+    TextView text;
 
     private List<DiscussionsResponseBody> discussions;
     private RecyclerView discussionsListView;
@@ -51,6 +53,7 @@ public class UserDiscussions extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Constants.storageName, MODE_PRIVATE);
         userId = sharedPreferences.getLong("userId", 0);
         token = sharedPreferences.getString("token", "");
+        text = findViewById(R.id.textf);
 
         discussionsListView = findViewById(R.id.user_discussions_list);
 
@@ -86,6 +89,14 @@ public class UserDiscussions extends AppCompatActivity {
                             LinearLayoutManager manager = new LinearLayoutManager(UserDiscussions.this, LinearLayoutManager.VERTICAL, false);
                             discussionsListView.setLayoutManager(manager);
                             discussionsListView.setAdapter(adapter);
+                            if(adapter.getItemCount()!=0){
+                                discussionsListView.setVisibility(View.VISIBLE);
+                                text.setVisibility(View.GONE);
+                            }
+                            else {
+                                discussionsListView.setVisibility(View.GONE);
+                                text.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             String message = ErrorUtils.error(response).getError();
                             new AlertDialog.Builder(UserDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {

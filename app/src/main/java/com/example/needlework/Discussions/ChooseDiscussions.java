@@ -69,6 +69,8 @@ public class ChooseDiscussions extends AppCompatActivity {
 
     private TextView discussionText;
     private TextView ratingText;
+    private TextView tvName;
+    TextView text;
 
     private SharedPreferences sharedPreferences;
 
@@ -98,6 +100,7 @@ public class ChooseDiscussions extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Constants.storageName, MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         userId = sharedPreferences.getLong("userId", 0);
+        text = findViewById(R.id.textf);
         Log.d("Token", token);
 
 
@@ -108,6 +111,7 @@ public class ChooseDiscussions extends AppCompatActivity {
         etText = findViewById(R.id.etMessage);
         btn_createDisc = findViewById(R.id.btn_createDisc);
         ratingText = findViewById(R.id.rating_text);
+        tvName = findViewById(R.id.tvName);
         ratingbar = findViewById(R.id.rating);
 
         getMessages();
@@ -148,6 +152,7 @@ public class ChooseDiscussions extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             discussionText.setText(response.body().getTextOfDiscussions());
                             ratingText.setText(String.format("%.1f", response.body().getRating()));
+                            tvName.setText(response.body().getTheme());
                         }
                         else {
                             String message = ErrorUtils.error(response).getError();
@@ -185,6 +190,14 @@ public class ChooseDiscussions extends AppCompatActivity {
                             LinearLayoutManager manager = new LinearLayoutManager(ChooseDiscussions.this, LinearLayoutManager.VERTICAL, false);
                             mMessageContainer.setLayoutManager(manager);
                             mMessageContainer.setAdapter(messageAdapter);
+                            if(messageAdapter.getItemCount()!=0){
+                                mMessageContainer.setVisibility(View.VISIBLE);
+                                text.setVisibility(View.GONE);
+                            }
+                            else {
+                                mMessageContainer.setVisibility(View.GONE);
+                                text.setVisibility(View.VISIBLE);
+                            }
                         }
                         else {
                             String message = ErrorUtils.error(response).getError();

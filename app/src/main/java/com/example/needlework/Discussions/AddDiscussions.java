@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.needlework.Adapters.DiscussionAdapter;
 import com.example.needlework.Adapters.OnAdapterItemClickListener;
@@ -26,9 +27,12 @@ import com.example.needlework.NetWork.Models.discussions.CreateCategoryOfDiscuss
 import com.example.needlework.NetWork.Models.discussions.CreateDiscussionRequestBody;
 import com.example.needlework.NetWork.Models.discussions.DiscussionsResponseBody;
 import com.example.needlework.NetWork.Models.discussions.GetDiscussionByCritetionResponseBody;
+import com.example.needlework.NetWork.Models.user.GetUserResponseBody;
+import com.example.needlework.NetWork.Models.user.UserResponseBody;
 import com.example.needlework.NetWork.Service.ApiService;
 import com.example.needlework.R;
 import com.example.needlework.common.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,10 +43,14 @@ import retrofit2.Response;
 public class AddDiscussions extends AppCompatActivity {
 
     ImageButton img_back;
+    ImageView imgAvatar;
 
     private DiscussionAdapter popularDiscussionAdapter;
     private List<DiscussionsResponseBody> mPopularDiscussions;
     private RecyclerView recyclerViewPopularDisc;
+
+    private static UserResponseBody currentUserData;
+    private SharedPreferences storage;
 
     RecyclerView rvDisc;
     String token;
@@ -55,7 +63,7 @@ public class AddDiscussions extends AppCompatActivity {
 
     private ApiService service = ApiHandler.getmInstance().getService();
 
-    private long categoryOfDiscussionId = 0;
+    private static long categoryOfDiscussionId = 0;
     private boolean isCategoryOfDiscussionCreated = false;
 
     @Override
@@ -63,15 +71,13 @@ public class AddDiscussions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_discussions);
 
-        categoryOfDiscussionId = 0;
-        isCategoryOfDiscussionCreated = false;
-
         img_back = findViewById(R.id.btn_back);
         recyclerViewPopularDisc = findViewById(R.id.rv_popular);
         et_category = findViewById(R.id.et_category);
         et_message = findViewById(R.id.et_message);
         etTheme = findViewById(R.id.et_theme);
         publishButton = findViewById(R.id.btn_publish);
+        imgAvatar = findViewById(R.id.img_avatar);
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +85,7 @@ public class AddDiscussions extends AppCompatActivity {
             }
         });
 
+        storage = AddDiscussions.this.getSharedPreferences(Constants.storageName, AddDiscussions.this.MODE_PRIVATE);
         token = getSharedPreferences(Constants.storageName, Context.MODE_PRIVATE).getString("token", "");
         sharedPreferences = getSharedPreferences(Constants.storageName, MODE_PRIVATE);
         userId = sharedPreferences.getLong("userId", 0);
@@ -86,12 +93,13 @@ public class AddDiscussions extends AppCompatActivity {
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddDiscussions.this, ChooseDiscussions.class);
+                Intent intent = new Intent(AddDiscussions.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
         getPopularCategories();
+        getUserInfo();
     }
 
     private void getPopularCategories() {
@@ -132,6 +140,44 @@ public class AddDiscussions extends AppCompatActivity {
                     }).show();
                 }
             });
+        });
+    }
+
+    private void getUserInfo() {
+        String token = storage.getString("token", "");
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                service.getUser(token).enqueue(new Callback<GetUserResponseBody>() {
+                    @Override
+                    public void onResponse(Call<GetUserResponseBody> call, Response<GetUserResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            currentUserData = response.body().getUser();
+                            Picasso.with(AddDiscussions.this)
+                                    .load(currentUserData.getAvatar())
+                                    .placeholder(R.drawable.avatar_placeholder)
+                                    .into(imgAvatar);
+                        } else {
+                            String message = ErrorUtils.error(response).getError();
+                            new AlertDialog.Builder(AddDiscussions.this).setTitle("Ошибка").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetUserResponseBody> call, Throwable t) {
+                        new AlertDialog.Builder(AddDiscussions.this).setTitle("Ошибка").setMessage(t.getLocalizedMessage()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+                    }
+                });
+            }
         });
     }
 

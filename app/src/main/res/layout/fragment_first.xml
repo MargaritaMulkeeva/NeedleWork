@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/darkRegularText"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:text="Отфильтровать схемы по категориям:"
                 android:textAlignment="center"
                 android:layout_marginBottom="8dp"/>
@@ -90,7 +90,7 @@
                 android:orientation="vertical"
                 android:elevation="1dp"
                 android:background="@drawable/round_panel"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 style="@style/topText"
                 android:textSize="15dp"
                 android:text="Все схемы по вязанию"/>

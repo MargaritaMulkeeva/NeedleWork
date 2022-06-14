@@ -65,19 +65,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="7dp"
-                        android:layout_marginRight="8dp">
-
                         <ImageView
                             android:id="@+id/img_avatar"
                             android:layout_width="56dp"
                             android:layout_height="51dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/gray"/>
-                    </androidx.cardview.widget.CardView>
+                            android:src="@drawable/gray"
+                            android:layout_marginRight="8dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,7 +87,7 @@
                         android:layout_marginBottom="8dp"
                         style="@style/italic"
                         android:inputType="textPersonName"
-                        android:hint="Введите тему категории"
+                        android:hint="Введите тему обсуждения"
                         android:textColorHint="@color/MainText"
                         android:textSize="12dp"/>
 

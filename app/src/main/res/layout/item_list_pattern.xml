@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="8dp">
+            android:layout_marginLeft="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:id="@+id/text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Название"
+                    android:text="Длинный шарф из двух видов пряжи"
                     style="@style/darkRegularText"
                     android:layout_weight="0.1"
                     android:textSize="12dp"/>
@@ -53,14 +53,14 @@
                     style="@style/secondRegularText"
                     android:textSize="9dp"
                     android:text="5.6"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_marginLeft="2dp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/text_descriprion"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Описание Описание Описание Описание Описание Описание Описание Описание Описание"
+                android:text="Модный длинный шарф (длина модели 2,5 метра!) связан из пряжи двух типов восьми разных цветов."
                 style="@style/secondRegularText"
                 android:textSize="10dp"/>
         </LinearLayout>

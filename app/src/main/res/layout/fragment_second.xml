@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/darkRegularText"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:layout_marginTop="16dp"
                 android:text="Отфильтровать обсуждения по категориям:"
                 android:textAlignment="center"/>
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 style="@style/topText"
                 android:textSize="15dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_gravity="center_horizontal"
                 android:text="Все темы"/>
 
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 style="@style/topText"
                 android:textSize="15dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_gravity="center_horizontal"
                 android:text="Популярные темы сейчас"/>
 

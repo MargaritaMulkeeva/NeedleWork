@@ -30,6 +30,7 @@
                 android:background="#0000"/>
 
             <TextView
+                android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -87,6 +88,16 @@
             android:layout_marginTop="16dp"
             android:text="Сообщения"
             android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/textf"
+            style="@style/secondRegularText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="Пока сообщений нет, будьте первыми!"
+            android:textSize="12dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_messages"

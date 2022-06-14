@@ -142,17 +142,19 @@ public class secondFragment extends Fragment {
                             @Override
                             public void onItemClick(int position) {
                                 getAllDiscInMainThread();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        CategoriesOfPatternResponseBody category = mCategories.get(position);
-                                        for (Iterator<DiscussionsResponseBody> it = mAllDisc.iterator(); it.hasNext(); ) {
-                                            if (it.next().getCategoryOfDiscussionsId() != category.getId())
-                                                it.remove();
+                                if(!mCategories.get(position).getName().equals("Все обсуждения")){
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            CategoriesOfPatternResponseBody category = mCategories.get(position);
+                                            for (Iterator<DiscussionsResponseBody> it = mAllDisc.iterator(); it.hasNext(); ) {
+                                                if (it.next().getCategoryOfDiscussionsId() != category.getId())
+                                                    it.remove();
+                                            }
+                                            allDiscussionsAdapter.notifyDataSetChanged();
                                         }
-                                        allDiscussionsAdapter.notifyDataSetChanged();
-                                    }
-                                }, 1000);
+                                    }, 1000);
+                                }
                             }
                         });
 
